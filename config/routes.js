@@ -33,5 +33,39 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  // CUSTOM ROUTES
+
+  'POST /api/v1/auth/login':                   { action: 'auth/login' },
+  'POST /api/v1/auth/signup':                  { action: 'auth/signup' },
+
+  // User routes
+  'GET /api/v1/user':                           { action: 'v1/user/index' },
+  'GET /api/v1/user/profile':                   { action: 'v1/user/profile' },
+  'GET /api/v1/user/:id':                       { action: 'v1/user/show' },
+  'POST /api/v1/user':                          { action: 'v1/user/create' },
+
+  // Category routes
+  'GET /api/v1/category':                       { action: 'v1/category/index' },
+  'POST /api/v1/category':                      { action: 'v1/category/create' },
+  'PUT /api/v1/category/:id':                   { action: 'v1/category/update' },
+
+  // Outlet Routes
+  'GET /api/v1/outlet':                         { action: 'v1/outlet/index' },
+  'POST /api/v1/outlet':                        { action: 'v1/outlet/create' },
+  'PUT /api/v1/outlet/:id':                     { action: 'v1/outlet/update' },
+
+  // Sub Category
+  'GET /api/v1/item':                           { action: 'v1/item/index' },
+  'POST /api/v1/item':                          { action: 'v1/item/create' },
+  'PUT /api/v1/item/:id':                       { action: 'v1/item/update' },
+
+  // Outlet Category
+  'GET /api/v1/outletCategory':                 { action: 'v1/outletCategory/index' },
+  'POST /api/v1/outletCategory':                { action: 'v1/outletCategory/create' },
+
+  // Outlet Sub Category
+  'GET /api/v1/outletItem':                     { action: 'v1/outletItem/index' },
+  'POST /api/v1/outletItem':                    { action: 'v1/outletItem/create' },
+  'PUT /api/v1/outletItem/:id':                 { action: 'v1/outletItem/update' },
 
 };
