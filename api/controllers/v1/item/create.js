@@ -51,21 +51,19 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
-    var newName = inputs.name.toLowerCase();
-
-    var category = await Category.findOne(inputs.category);
+    let category = await Category.findOne(inputs.category);
     if (!category) {
       return exits.notFound({ error: 'Category not found' });
     }
 
-    var newItemRecord = await Item.create({
-      name: newName,
+    let newItemRecord = await Item.create({
+      name: inputs.name.toLowerCase(),
       overview: inputs.overview,
       category: inputs.category
     })
-    .intercept('E_UNIQUE', 'nameAlreadyInUse')
-    .intercept({name: 'UsageError'}, 'invalid')
-    .fetch();
+      .intercept('E_UNIQUE', 'nameAlreadyInUse')
+      .intercept({ name: 'UsageError' }, 'invalid')
+      .fetch();
 
     return exits.success(newItemRecord);
 

@@ -54,6 +54,12 @@ module.exports = {
       through: 'outletcategory',
     },
 
+    locations: {
+      collection: 'location',
+      via: 'outlet',
+      through: 'locationoutlet',
+    },
+
   },
 
 };

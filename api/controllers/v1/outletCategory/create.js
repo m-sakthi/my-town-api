@@ -1,11 +1,8 @@
 module.exports = {
 
-
   friendlyName: 'Create',
 
-
   description: 'Create OutletCategory.',
-
 
   inputs: {
     outlet: {
@@ -23,7 +20,6 @@ module.exports = {
     }
   },
 
-
   exits: {
     invalid: {
       responseType: 'badRequest',
@@ -40,7 +36,6 @@ module.exports = {
     }
 
   },
-
 
   fn: async function (inputs, exits) {
     var outlet = await Outlet.findOne(inputs.outlet);
@@ -60,7 +55,6 @@ module.exports = {
     if (itemRecord) {
       return exits.combintaionAlreadyExists({ error: 'Outlet-Category combination already exists' });
     }
-
 
     var newItemRecord = await OutletCategory.create({
       outlet: inputs.outlet,

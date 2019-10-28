@@ -2,7 +2,7 @@ module.exports = {
 
   friendlyName: 'List',
 
-  description: 'List Categories.',
+  description: 'List Locations.',
 
   inputs: {
 
@@ -15,7 +15,7 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
-    var records = await User.find();
+    var records = await Location.find();
     return exits.success(records);
   }
 

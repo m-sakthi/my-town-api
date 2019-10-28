@@ -58,11 +58,10 @@ module.exports = {
       payload = Object.assign(payload, { overview: inputs.overview });
     }
 
-    var updatedRecord = await Category.update({ id: inputs.id })
-    .set(payload)
-    .intercept('E_UNIQUE', 'nameAlreadyInUse')
-    .intercept({name: 'UsageError'}, 'invalid')
-    .fetch();
+    var updatedRecord = await Category.updateOne(inputs.id)
+      .set(payload)
+      .intercept('E_UNIQUE', 'nameAlreadyInUse')
+      .intercept({ name: 'UsageError' }, 'invalid');
 
     return exits.success(updatedRecord);
 
