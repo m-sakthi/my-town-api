@@ -59,41 +59,36 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
-    var outletItem = await OutletItem.findOne(inputs.id);
-    if (!outletItem) {
-      return exits.notFound({ error: 'OutletItem not found' });
-    }
+    let outletItem = await OutletItem.findOne(inputs.id);
+    if (!outletItem) return exits.notFound({ error: 'OutletItem not found' });
 
-    var payload = {};
+    let payload = {};
     if (inputs.outlet != undefined) {
-      var outlet = await Outlet.findOne(inputs.outlet);
-      if (!outlet) {
-        return exits.notFound({ error: 'Outlet not found' });
-        payload = Object.assign(payload, { outlet: inputs.outlet });
-      }
+      let outlet = await Outlet.findOne(inputs.outlet);
+      if (!outlet) return exits.notFound({ error: 'Outlet not found' });
+
+      payload = Object.assign(payload, { outlet: inputs.outlet });
     }
-    
+
     if (inputs.item != undefined) {
-      var item = await Item.findOne(inputs.item);
-      if (!item) {
-        return exits.notFound({ error: 'Item not found' });
-        payload = Object.assign(payload, { item: inputs.item });
-      }
+      let item = await Item.findOne(inputs.item);
+      if (!item) return exits.notFound({ error: 'Item not found' });
+
+      payload = Object.assign(payload, { item: inputs.item });
     }
 
-    if (inputs.price != undefined) {
+    if (inputs.price != undefined)
       payload = Object.assign(payload, { price: inputs.price });
-    }
 
-    if (inputs.overview != undefined) {
+
+    if (inputs.overview != undefined)
       payload = Object.assign(payload, { overview: inputs.overview });
-    }
 
-    var updatedRecord = await OutletItem.update({ id: inputs.id })
-    .set(payload)
-    .intercept('E_UNIQUE', 'nameAlreadyInUse')
-    .intercept({name: 'UsageError'}, 'invalid')
-    .fetch();
+
+    let updatedRecord = await OutletItem.update(inputs.id)
+      .set(payload)
+      .intercept('E_UNIQUE', 'nameAlreadyInUse')
+      .intercept({ name: 'UsageError' }, 'invalid');
 
     return exits.success(updatedRecord);
 

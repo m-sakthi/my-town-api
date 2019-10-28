@@ -1,11 +1,8 @@
 module.exports = {
 
-
   friendlyName: 'Update',
 
-
   description: 'Update category.',
-
 
   inputs: {
     id: {
@@ -34,7 +31,6 @@ module.exports = {
     }
   },
 
-
   exits: {
     invalid: {
       responseType: 'badRequest',
@@ -52,7 +48,6 @@ module.exports = {
 
   },
 
-
   fn: async function (inputs, exits) {
     var item = await Item.findOne(inputs.id);
     if (!item) {
@@ -60,32 +55,28 @@ module.exports = {
     }
 
     var payload = {};
-    if (inputs.name != undefined) {
-      var newName = inputs.name.toLowerCase();
-      payload = Object.assign(payload, { name: newName });
-    }
+    if (inputs.name != undefined) payload = Object.assign(payload, {
+      name: inputs.name.toLowerCase()
+    });
 
-    if (inputs.overview != undefined) {
-      payload = Object.assign(payload, { overview: inputs.overview });
-    }
+    if (inputs.overview != undefined) payload = Object.assign(payload, {
+      overview: inputs.overview
+    });
 
     if (inputs.category != undefined) {
       var category = await Category.findOne(inputs.category);
-      if (!category) {
-        return exits.notFound({ error: 'Category not found' });
-      }
+      if (!category) return exits.notFound({ error: 'Category not found' });
+
       payload = Object.assign(payload, { category: inputs.category });
     }
 
-    var updatedRecord = await Item.update({ id: inputs.id })
-    .set(payload)
-    .intercept('E_UNIQUE', 'nameAlreadyInUse')
-    .intercept({ name: 'UsageError' }, 'invalid')
-    .fetch();
+    var updatedRecord = await Item.update(inputs.id)
+      .set(payload)
+      .intercept('E_UNIQUE', 'nameAlreadyInUse')
+      .intercept({ name: 'UsageError' }, 'invalid');
 
     return exits.success(updatedRecord);
 
   }
-
 
 };

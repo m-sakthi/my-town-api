@@ -88,11 +88,10 @@ module.exports = {
       payload = Object.assign(payload, { latitude: inputs.latitude });
     }
 
-    var updatedRecord = await Outlet.update({ id: inputs.id })
+    var updatedRecord = await Outlet.update(nputs.id)
     .set(payload)
     .intercept('E_UNIQUE', 'nameAlreadyInUse')
-    .intercept({name: 'UsageError'}, 'invalid')
-    .fetch();
+    .intercept({name: 'UsageError'}, 'invalid');
 
     return exits.success(updatedRecord);
 
