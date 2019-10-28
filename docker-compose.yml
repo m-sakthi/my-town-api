@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  my-town-api:
+    image: my-town-api
+    build:
+      context: .
+    ports:
+      - 80:80
+    env_file: .env
