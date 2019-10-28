@@ -43,7 +43,7 @@ module.exports = {
 
     if (inputs.name)
       location = await Location.updateOne(inputs.id)
-        .set({ name: inputs.name })
+        .set({ name: inputs.name.toLowerCase() })
         .intercept('E_UNIQUE', 'nameAlreadyInUse')
         .intercept({ name: 'UsageError' }, 'invalid')
 
