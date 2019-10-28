@@ -20,6 +20,7 @@ module.exports.custom = {
   // stripeSecret: 'sk_test_Zzd814nldl91104qor5911gjald',
   // …
 
+  baseUrl: process.env.MY_TOWN_API_PRODUCTION_HTTPS_API_URL,
   jwt_token_secret: process.env.TOKEN_SECRET || 'Zzd814nldl91104qor5911gjald',
 
 };
