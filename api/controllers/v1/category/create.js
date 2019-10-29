@@ -1,14 +1,11 @@
 module.exports = {
 
-
   friendlyName: 'Create',
-
 
   description: 'Create category.',
 
-
   inputs: {
-  	name: {
+    name: {
       type: 'string',
       required: true,
       description: 'Full representation of the Category Name',
@@ -24,9 +21,8 @@ module.exports = {
     },
   },
 
-
   exits: {
-  	invalid: {
+    invalid: {
       responseType: 'badRequest',
     },
 
@@ -37,21 +33,17 @@ module.exports = {
 
   },
 
-
   fn: async function (inputs, exits) {
-  	var newName = inputs.name.toLowerCase();
-
-  	var newCategoryRecord = await Category.create({
-  		name: newName,
-  		overview: inputs.overview,
-  	})
-  	.intercept('E_UNIQUE', 'nameAlreadyInUse')
-    .intercept({name: 'UsageError'}, 'invalid')
-    .fetch();
+    let newCategoryRecord = await Category.create({
+      name: inputs.name.toLowerCase(),
+      overview: inputs.overview,
+    })
+      .intercept('E_UNIQUE', 'nameAlreadyInUse')
+      .intercept({ name: 'UsageError' }, 'invalid')
+      .fetch();
 
     return exits.success(newCategoryRecord);
 
   }
-
 
 };

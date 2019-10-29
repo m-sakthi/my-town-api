@@ -54,7 +54,6 @@ module.exports.routes = {
   // LocationOutlet routes
   'GET /api/v1/locationOutlet':                 { action: 'v1/locationOutlet/index' },
   'POST /api/v1/locationOutlet':                { action: 'v1/locationOutlet/create' },
-  'PUT /api/v1/locationOutlet/:id':             { action: 'v1/locationOutlet/update' },
   'DELETE /api/v1/locationOutlet/:id':          { action: 'v1/locationOutlet/delete' },
 
   // Category routes

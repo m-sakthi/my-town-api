@@ -61,14 +61,14 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
-    var outlet = await Outlet.findOne(inputs.id);
+    let outlet = await Outlet.findOne(inputs.id);
     if (!outlet) {
       return exits.notFound({ error: 'Outlet not found' });
     }
 
-    var payload = {};
+    let payload = {};
     if (inputs.name != undefined) {
-      var newName = inputs.name.toLowerCase();
+      let newName = inputs.name.toLowerCase();
       payload = Object.assign(payload, { name: newName });
     }
 
@@ -88,15 +88,13 @@ module.exports = {
       payload = Object.assign(payload, { latitude: inputs.latitude });
     }
 
-    var updatedRecord = await Outlet.update(nputs.id)
-    .set(payload)
-    .intercept('E_UNIQUE', 'nameAlreadyInUse')
-    .intercept({name: 'UsageError'}, 'invalid');
+    let updatedRecord = await Outlet.update(inputs.id)
+      .set(payload)
+      .intercept('E_UNIQUE', 'nameAlreadyInUse')
+      .intercept({ name: 'UsageError' }, 'invalid');
 
     return exits.success(updatedRecord);
 
   }
 
-
 };
-

@@ -33,7 +33,7 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     var newRecord = await Location.create({
-      name: inputs.name,
+      name: inputs.name.toLowerCase(),
     })
       .intercept('E_UNIQUE', 'nameAlreadyInUse')
       .intercept({ name: 'UsageError' }, 'invalid')

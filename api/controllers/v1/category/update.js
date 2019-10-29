@@ -26,6 +26,7 @@ module.exports = {
       description: 'Some overview about that category',
       example: 'All Provosional items will be available',
     },
+
   },
 
 
@@ -43,22 +44,19 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
-    var category = await Category.findOne(inputs.id);
+    let category = await Category.findOne(inputs.id);
     if (!category) {
       return exits.notFound({ error: 'Category not found' });
     }
 
-    var payload = {};
-    if (inputs.name != undefined) {
-      var newName = inputs.name.toLowerCase();
-      payload = Object.assign(payload, { name: newName });
-    }
+    let payload = {};
+    if (inputs.name != undefined)
+      payload = Object.assign(payload, { name: inputs.name.toLowerCase() });
 
-    if (inputs.overview != undefined) {
+    if (inputs.overview != undefined)
       payload = Object.assign(payload, { overview: inputs.overview });
-    }
 
-    var updatedRecord = await Category.updateOne(inputs.id)
+    let updatedRecord = await Category.updateOne(inputs.id)
       .set(payload)
       .intercept('E_UNIQUE', 'nameAlreadyInUse')
       .intercept({ name: 'UsageError' }, 'invalid');
