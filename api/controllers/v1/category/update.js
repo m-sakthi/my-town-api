@@ -1,11 +1,8 @@
 module.exports = {
 
-
   friendlyName: 'Update',
 
-
   description: 'Update category.',
-
 
   inputs: {
     id: {
@@ -27,8 +24,13 @@ module.exports = {
       example: 'All Provosional items will be available',
     },
 
-  },
+    attachmentId: {
+      type: 'number',
+      description: 'Attachment ID',
+      example: 1,
+    }
 
+  },
 
   exits: {
     invalid: {
@@ -42,12 +44,9 @@ module.exports = {
 
   },
 
-
   fn: async function (inputs, exits) {
     let category = await Category.findOne(inputs.id);
-    if (!category) {
-      return exits.notFound({ error: 'Category not found' });
-    }
+    if (!category) return exits.notFound({ error: 'Category not found.' });
 
     let payload = {};
     if (inputs.name != undefined)
@@ -55,6 +54,13 @@ module.exports = {
 
     if (inputs.overview != undefined)
       payload = Object.assign(payload, { overview: inputs.overview });
+
+    if (inputs.attachmentId) {
+      if (!await Attachment.findOne(inputs.attachmentId))
+        return exits.notFound({ error: 'Attachement not found.' });
+
+      payload = Object.assign(payload, { attachment: inputs.attachmentId })
+    }
 
     let updatedRecord = await Category.updateOne(inputs.id)
       .set(payload)
@@ -65,6 +71,4 @@ module.exports = {
 
   }
 
-
 };
-

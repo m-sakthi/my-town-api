@@ -23,4 +23,18 @@ module.exports.custom = {
   baseUrl: process.env.MY_TOWN_API_PRODUCTION_HTTPS_API_URL,
   jwt_token_secret: process.env.TOKEN_SECRET || 'Zzd814nldl91104qor5911gjald',
 
+  s3Upload: false,
+
+  s3UploadConfig: {
+    adapter: require('skipper-s3'),
+    key: 'poiuytrewqasdfghjkl',
+    secret: 'poiuytresdfghjk,mnbvcxzaqwertyuiop',
+    bucket: 'some-bucketname',
+    host: 'https://somehost.net/'
+  },
+
+  localDiskUploadConfig: {
+    maxBytes: 10000000,
+  }
+
 };
