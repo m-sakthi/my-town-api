@@ -24,6 +24,10 @@ module.exports = {
       through: 'locationoutlet',
     },
 
+    users: {
+      collection: 'user',
+    }
+
   },
 
 };

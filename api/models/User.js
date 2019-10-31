@@ -43,12 +43,24 @@ module.exports = {
     },
 
     mobileNo: {
-      required: true,
       type: 'string',
+      required: true,
+      unique: true,
       maxLength: 20,
-      // regex: /^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$/i,
+      regex: /^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$/i,
       description: 'Mobile number for OTP verification and other services.',
-      example: '+91 2342424234',
+      example: '+912342424234',
+    },
+
+    gender: {
+      type: 'string',
+      isIn: ['male', 'female', 'other'],
+      description: 'Gender',
+      example: 'male'
+    },
+
+    location: {
+      model: 'location'
     },
 
   },

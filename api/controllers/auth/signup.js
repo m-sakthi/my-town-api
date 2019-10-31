@@ -39,10 +39,23 @@ module.exports = {
     },
 
     mobileNo: {
-      required: true,
       type: 'string',
+      required: true,
       example: '+91 2342424234',
       description: 'Mobile number for OTP verification and other services,',
+    },
+
+    gender: {
+      type: 'string',
+      isIn: ['male', 'female', 'other'],
+      description: 'Gender',
+      example: 'male'
+    },
+
+    locationId: {
+      type: 'number',
+      description: 'Location ID',
+      example: 1
     },
 
   },
@@ -52,8 +65,8 @@ module.exports = {
     invalid: {
       responseType: 'badRequest',
       description: 'The provided fullName, password and/or email address are invalid.',
-      extendedDescription: 'If this request was sent from a graphical user interface, the request '+
-      'parameters should have been validated/coerced _before_ they were sent.'
+      extendedDescription: 'If this request was sent from a graphical user interface, the request ' +
+        'parameters should have been validated/coerced _before_ they were sent.'
     },
 
     emailAlreadyInUse: {
@@ -64,6 +77,8 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
+    if (inputs.locationId && !await Location.findOne(inputs.locationId))
+      return exits.notFound({ error: 'Location not found' });
 
     var newEmailAddress = inputs.emailAddress.toLowerCase();
 
@@ -75,11 +90,13 @@ module.exports = {
       firstName: inputs.firstName,
       lastName: inputs.lastName,
       mobileNo: inputs.mobileNo,
+      gender: inputs.gender.toLowerCase(),
+      location: inputs.locationId,
     })
-    .intercept('E_UNIQUE', 'emailAlreadyInUse')
-    .intercept({name: 'UsageError'}, 'invalid')
-    .fetch();
-    
+      .intercept('E_UNIQUE', 'emailAlreadyInUse')
+      .intercept({ name: 'UsageError' }, 'invalid')
+      .fetch();
+
     // Store the user's new id in their session.
     // this.req.session.userId = newUserRecord.id;
 
