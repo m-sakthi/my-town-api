@@ -85,4 +85,10 @@ module.exports.routes = {
   'PUT /api/v1/outletItem/:id':                 { action: 'v1/outletItem/update' },
   'DELETE /api/v1/outletItem/:id':              { action: 'v1/outletItem/delete' },
 
+  // Offer routes
+  'GET /api/v1/offer':                           { action: 'v1/offer/index' },
+  'POST /api/v1/offer':                          { action: 'v1/offer/create' },
+  'PUT /api/v1/offer/:id':                       { action: 'v1/offer/update' },
+  'DELETE /api/v1/offer/:id':                    { action: 'v1/offer/delete' },
+
 };

@@ -42,7 +42,20 @@ module.exports = {
       description: 'Mobile number',
       maxLength: 20,
       example: '1231312313'
-    }
+    },
+
+    gender: {
+      type: 'string',
+      isIn: ['male', 'female', 'other'],
+      description: 'Gender',
+      example: 'male'
+    },
+
+    locationId: {
+      type: 'number',
+      description: 'Location ID',
+      example: 1
+    },
   },
 
 
@@ -61,14 +74,19 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
+    if (inputs.locationId && !await Location.findOne(inputs.locationId))
+      return exits.notFound({ error: 'Location not found' });
+
     var newUserRecord = await User.create({
       emailAddress: inputs.emailAddress.toLowerCase(),
       password: await sails.helpers.passwords.hashPassword(inputs.password),
       firstName: inputs.firstName,
       lastName: inputs.lastName,
       mobileNo: inputs.mobileNo,
+      gender: inputs.gender.toLowerCase(),
+      location: inputs.locationId,
     })
-      .intercept('E_UNIQUE', (e) => exits.emailAlreadyInUse({ error:  e }))
+      .intercept('E_UNIQUE', (e) => exits.emailAlreadyInUse({ error: e }))
       .intercept({ name: 'UsageError' }, 'invalid')
       .fetch();
 

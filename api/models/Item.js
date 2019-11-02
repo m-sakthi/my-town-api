@@ -24,6 +24,13 @@ module.exports = {
       example: 'All Provisonanl items are available',
     },
 
+    price: {
+      type: 'string',
+      required: true,
+      description: 'Price for the item',
+      example: '100',
+    },
+
     category: {
       model: 'category',
     },
