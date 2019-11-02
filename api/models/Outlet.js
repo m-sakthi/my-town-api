@@ -18,13 +18,6 @@ module.exports = {
       example: 'Indian Parlour',
     },
 
-    address: {
-      type: 'string',
-      required: true,
-      description: 'Full Address of the Outlet',
-      example: 'No 123, Abc Street, XYZ city, PQR state.',
-    },
-
     overview: {
       type: 'string',
       required: true,
@@ -38,16 +31,6 @@ module.exports = {
       defaultsTo: 0,
     },
 
-    longitude: {
-      type: 'number',
-      // required: true
-    },
-
-    latitude: {
-      type: 'number',
-      // required: true
-    },
-
     categories: {
       collection: 'category',
       via: 'outlet',
@@ -58,6 +41,12 @@ module.exports = {
       collection: 'location',
       via: 'outlet',
       through: 'locationoutlet',
+    },
+
+    addresses: {
+      collection: 'address',
+      via: 'outlet',
+      through: 'outletaddress',
     },
 
   },

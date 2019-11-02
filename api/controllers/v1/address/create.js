@@ -1,14 +1,10 @@
-/**
- * LocationOutlet.js
- *
- * @description :: A model definition represents a database table/collection.
- * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
- */
-
 module.exports = {
 
-  attributes: {
+  friendlyName: 'Create',
 
+  description: 'Create Address.',
+
+  inputs: {
     isPrimary: {
       type: 'boolean',
       description: 'true/false. Whether this location is primary for user',
@@ -51,26 +47,33 @@ module.exports = {
       example: '600001'
     },
 
-    longitude: {
-      type: 'number',
-    },
-
     latitude: {
-      type: 'number',
+      type: 'string',
+      description: 'latitude details',
+      example: '15.887376'
     },
 
-    outlets: {
-      collection: 'outlet',
-      via: 'address',
-      through: 'outletaddress',
-    },
-
-    users: {
-      collection: 'user',
-      via: 'address',
-      through: 'useraddress',
+    longitude: {
+      type: 'string',
+      description: 'longitude details',
+      example: '15.887376'
     },
 
   },
+
+  exits: {
+    invalid: {
+      responseType: 'badRequest',
+    },
+  },
+
+  fn: async function (inputs, exits) {
+    let newRecord = await Address.create(inputs)
+      .intercept({ name: 'UsageError' }, 'invalid')
+      .fetch();
+
+    return exits.success(newRecord);
+
+  }
 
 };

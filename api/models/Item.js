@@ -12,16 +12,16 @@ module.exports = {
       type: 'string',
       required: true,
       unique: true,
-      description: 'Full representation of the Caregory Name',
+      description: 'Full representation of the Item Name',
       maxLength: 120,
-      example: 'Provison'
+      example: 'Thoordaal'
     },
 
     overview: {
       type: 'string',
       required: true,
-      description: 'Some overview about that category',
-      example: 'All Provisonanl items are available',
+      description: 'Some overview about that Item',
+      example: 'Thoordaal contains good amount of protein',
     },
 
     price: {

@@ -11,7 +11,6 @@ module.exports = {
 
     emailAddress: {
       type: 'string',
-      required: true,
       unique: true,
       isEmail: true,
       maxLength: 200,
@@ -44,7 +43,6 @@ module.exports = {
 
     mobileNo: {
       type: 'string',
-      required: true,
       unique: true,
       maxLength: 20,
       regex: /^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$/i,
@@ -61,6 +59,12 @@ module.exports = {
 
     location: {
       model: 'location'
+    },
+
+    addresses: {
+      collection: 'address',
+      via: 'user',
+      through: 'useraddress',
     },
 
   },

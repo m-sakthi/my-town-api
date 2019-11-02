@@ -7,6 +7,8 @@
 
 module.exports = {
 
+  tableName: 'outletitem',
+
   attributes: {
 
     overview: {
@@ -17,7 +19,6 @@ module.exports = {
 
     price: {
       type: 'number',
-      required: true,
       description: 'Price for the item offered by outlet',
       example: 100.50
     },
