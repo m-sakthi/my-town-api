@@ -21,6 +21,7 @@ module.exports = {
     overview: {
       type: 'string',
       required: true,
+      maxLength: 255,
       description: 'Some overview about that category',
       example: 'All Provisonanl items are available',
     },

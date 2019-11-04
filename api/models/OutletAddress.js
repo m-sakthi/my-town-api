@@ -1,5 +1,5 @@
 /**
- * OutletCategory.js
+ * OutletAddress.js
  *
  * @description :: A model definition.  Represents a database table/collection/etc.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -7,7 +7,7 @@
 
 module.exports = {
 
-  tableName: 'outletcategory',
+  tableName: 'outletaddress',
 
   attributes: {
 
@@ -15,8 +15,8 @@ module.exports = {
       model: 'outlet',
     },
 
-    category: {
-      model: 'category',
+    address: {
+      model: 'address',
     },
 
   },
