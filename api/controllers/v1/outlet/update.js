@@ -27,22 +27,10 @@ module.exports = {
       example: 'All Provosional items will be available',
     },
 
-    address: {
+    status: {
       type: 'string',
-      description: 'Full Address of the Outlet',
-      example: 'No 123, Abc Street, XYZ city, PQR state.',
-    },
-
-    longitude: {
-      type: 'number',
-      description: 'Longitude of the Outlet location',
-      example: 12.9900909,
-    },
-
-    latitude: {
-      type: 'number',
-      description: 'Latitude of the Outlet location',
-      example: 12.9900909,
+      isIn: ['active', 'deleted'],
+      defaultsTo: 'active',
     },
   },
 
@@ -76,19 +64,11 @@ module.exports = {
       payload = Object.assign(payload, { overview: inputs.overview });
     }
 
-    if (inputs.address != undefined) {
-      payload = Object.assign(payload, { address: inputs.address });
+    if (inputs.status != undefined) {
+      payload = Object.assign(payload, { status: inputs.status });
     }
 
-    if (inputs.longitude != undefined) {
-      payload = Object.assign(payload, { longitude: inputs.longitude });
-    }
-
-    if (inputs.latitude != undefined) {
-      payload = Object.assign(payload, { latitude: inputs.latitude });
-    }
-
-    let updatedRecord = await Outlet.update(inputs.id)
+    let updatedRecord = await Outlet.updateOne(inputs.id)
       .set(payload)
       .intercept('E_UNIQUE', 'nameAlreadyInUse')
       .intercept({ name: 'UsageError' }, 'invalid');

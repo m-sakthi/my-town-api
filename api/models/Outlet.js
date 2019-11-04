@@ -26,9 +26,9 @@ module.exports = {
     },
 
     status: {
-      type: 'number',
-      isIn: [0, 1, 2],  // 0 => fresh, 1 => active, 2 => deleted
-      defaultsTo: 0,
+      type: 'string',
+      isIn: ['active', 'deleted'],
+      defaultsTo: 'active',
     },
 
     categories: {

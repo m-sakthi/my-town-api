@@ -19,10 +19,10 @@ module.exports.policies = {
 
   // CUSTOM POLICIES
 
-  '*': true,
+  // '*': true,
 
   // All the APIs should be Authenticated
-  // 'v1/*': ['isAuthenticated'],
+  'v1/*': ['isAuthenticated'],
 
   'v1/user/create': true,
   'v1/user/index': true,
