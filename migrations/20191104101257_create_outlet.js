@@ -6,7 +6,7 @@ exports.up = function (knex) {
 
     t.string('name', 120).notNull();
     t.string('overview', 255).notNull();
-    t.enum('status', ['fresh', 'active', 'deleted']).notNull().defaultTo(0);
+    t.string('status', 10).notNull().defaultTo('active');
   });
 };
 

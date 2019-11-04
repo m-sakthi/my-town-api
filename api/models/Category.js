@@ -34,7 +34,12 @@ module.exports = {
 
     items: {
       collection: 'item',
+    },
+
+    attachment: {
+      model: 'attachment'
     }
+
 
   },
 

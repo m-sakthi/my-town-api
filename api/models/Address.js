@@ -51,12 +51,16 @@ module.exports = {
       example: '600001'
     },
 
-    longitude: {
-      type: 'number',
+    latitude: {
+      type: 'string',
+      description: 'latitude details',
+      example: '15.887376'
     },
 
-    latitude: {
-      type: 'number',
+    longitude: {
+      type: 'string',
+      description: 'longitude details',
+      example: '15.887376'
     },
 
     outlets: {

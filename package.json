@@ -11,13 +11,15 @@
     "@sailshq/socket.io-redis": "^5.2.0",
     "grunt": "1.0.4",
     "jsonwebtoken": "^8.5.1",
+    "knex": "^0.20.1",
     "sails": "^1.2.3",
     "sails-hook-autoreload": "^1.1.0",
     "sails-hook-grunt": "^4.0.0",
     "sails-hook-organics": "^1.0.0",
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^2.0.0",
-    "sails-postgresql": "^1.0.2"
+    "sails-postgresql": "^1.0.2",
+    "skipper-s3": "^0.6.0"
   },
   "devDependencies": {
     "eslint": "5.16.0"

@@ -4,8 +4,8 @@ exports.up = function (knex) {
     t.bigInteger('createdAt').defaultTo(+new Date());
     t.bigInteger('updatedAt').defaultTo(+new Date());
 
-    t.integer('address').nullable().references('id').inTable('address');
-    t.integer('user').nullable().references('id').inTable('user');
+    t.integer('address').notNull().references('id').inTable('address');
+    t.integer('user').notNull().references('id').inTable('user');
   });
 };
 

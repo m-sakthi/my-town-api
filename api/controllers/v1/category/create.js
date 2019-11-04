@@ -19,6 +19,12 @@ module.exports = {
       description: 'Some overview about that category',
       example: 'All Provosional items will be available',
     },
+
+    attachmentId: {
+      type: 'number',
+      description: 'Attachment ID',
+      example: 1,
+    }
   },
 
   exits: {
@@ -34,9 +40,13 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
+    if (inputs.attachmentId && !await Attachment.findOne(inputs.attachmentId)
+      ) return exits.notFound({ error: 'Attachement not found.' });
+
     let newCategoryRecord = await Category.create({
       name: inputs.name.toLowerCase(),
       overview: inputs.overview,
+      attachment: inputs.attachmentId,
     })
       .intercept('E_UNIQUE', 'nameAlreadyInUse')
       .intercept({ name: 'UsageError' }, 'invalid')

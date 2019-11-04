@@ -6,8 +6,9 @@ exports.up = function (knex) {
 
     t.string('overview', 255).nullable();
     t.decimal('price', 10, 2).nullable();
-    t.integer('item').nullable().references('id').inTable('item');
-    t.integer('outlet').nullable().references('id').inTable('outlet');
+
+    t.integer('item').notNull().references('id').inTable('item');
+    t.integer('outlet').notNull().references('id').inTable('outlet');
   });
 };
 

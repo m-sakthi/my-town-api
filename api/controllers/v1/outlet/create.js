@@ -22,25 +22,6 @@ module.exports = {
       description: 'Some overview about that Outlet',
       example: 'All Provosional items will be available',
     },
-
-    address: {
-      type: 'string',
-      required: true,
-      description: 'Full Address of the Outlet',
-      example: 'No 123, Abc Street, XYZ city, PQR state.',
-    },
-
-    longitude: {
-      type: 'number',
-      description: 'Longitude of the Outlet location',
-      example: 12.9900909,
-    },
-
-    latitude: {
-      type: 'number',
-      description: 'Latitude of the Outlet location',
-      example: 12.9900909,
-    },
   },
 
 
@@ -58,21 +39,19 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
-    var newName = inputs.name.toLowerCase();
-
-    var newOutletRecord = await Outlet.create({
-      name: newName,
+    var newRecord = await Outlet.create({
+      name: inputs.name.toLowerCase(),
       overview: inputs.overview,
       address: inputs.address,
       longitude: inputs.longitude,
       latitude: inputs.latitude,
-      status: 0,  // fresh status by default
+      status: 'active',
     })
-    .intercept('E_UNIQUE', 'nameAlreadyInUse')
-    .intercept({name: 'UsageError'}, 'invalid')
+    // .intercept('E_UNIQUE', 'nameAlreadyInUse')
+    // .intercept({name: 'UsageError'}, 'invalid')
     .fetch();
 
-    return exits.success(newOutletRecord);
+    return exits.success(newRecord);
 
   }
 

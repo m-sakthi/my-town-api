@@ -365,6 +365,20 @@ module.exports = {
     baseUrl: process.env.MY_TOWN_API_PRODUCTION_HTTPS_API_URL,
     jwt_token_secret: process.env.TOKEN_SECRET || 'Zzd814nldl91104qor5911gjald',
 
+    s3Upload: true,
+
+    s3UploadConfig: {
+      adapter: require('skipper-s3'),
+      key: process.env.MY_TOWN_API_AWS_S3_KEY,
+      secret: process.env.MY_TOWN_API_AWS_S3_SECRET,
+      bucket: process.env.MY_TOWN_API_AWS_S3_BUCKET,
+      host: process.env.MY_TOWN_API_AWS_S3_HOST,
+    },
+
+    localDiskUploadConfig: {
+      maxBytes: 10000000,
+    }
+
     // mailgunDomain: 'mg.example.com',
     // mailgunSecret: 'key-prod_fake_bd32301385130a0bafe030c',
     // stripeSecret: 'sk_prod__fake_Nfgh82401348jaDa3lkZ0d9Hm',

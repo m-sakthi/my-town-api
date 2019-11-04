@@ -92,8 +92,13 @@ module.exports.routes = {
   'DELETE /api/v1/offer/:id':                    { action: 'v1/offer/delete' },
 
   // Address routes
-  'GET /api/v1/address':                           { action: 'v1/address/index' },
-  'POST /api/v1/address':                          { action: 'v1/address/create' },
-  // 'PUT /api/v1/address/:id':                       { action: 'v1/address/update' },
-  // 'DELETE /api/v1/address/:id':                    { action: 'v1/address/delete' },
+  'GET /api/v1/address':                         { action: 'v1/address/index' },
+  'POST /api/v1/address':                        { action: 'v1/address/create' },
+  // 'PUT /api/v1/address/:id':                     { action: 'v1/address/update' },
+  // 'DELETE /api/v1/address/:id':                  { action: 'v1/address/delete' },
+
+  // Attachment Routes
+  'POST /api/v1/attachment':                    { action: 'v1/attachment/create' },
+  'GET /api/v1/attachment':                     { action: 'v1/attachment/index' },
+
 };
