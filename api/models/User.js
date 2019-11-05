@@ -67,6 +67,11 @@ module.exports = {
       through: 'useraddress',
     },
 
+    attachments: {
+      collection: 'attachment',
+      via: 'creator',
+    },
+
   },
 
   customToJSON: function () {

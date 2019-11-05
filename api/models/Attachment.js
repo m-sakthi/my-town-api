@@ -21,6 +21,10 @@ module.exports = {
       description: 'Full description of the file with path',
     },
 
+    creator: {
+      model: 'user',
+    }
+
   },
 
 };

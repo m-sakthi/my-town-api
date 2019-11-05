@@ -22,18 +22,20 @@ module.exports = async function create(req, res) {
   }
 
   req.file('file').upload(config,
-    (err, uploadedFiles) => {
+    async (err, uploadedFiles) => {
       if (err) return res.serverError(err);
       if (uploadedFiles.length === 0) return res.badRequest('No file was uploaded');
 
-      Attachment.create({
-        url: require('util').format('%s%s', downloadBaseUrl, uploadedFiles[0].fd),
-        fileDescription: uploadedFiles[0].fd
-      })
-        .exec(function (err, attachment) {
-          if (err) return res.serverError(err);
-          return res.ok(attachment);
-        });
+      try {
+        let attachment = await Attachment.create({
+          url: require('util').format('%s%s', downloadBaseUrl, uploadedFiles[0].fd),
+          fileDescription: uploadedFiles[0].fd,
+          creator: req.currentUser.id
+        }).fetch()
+        return res.json(attachment);
+      } catch (e) {
+        return res.badRequest(e);
+      }
     });
 
 };

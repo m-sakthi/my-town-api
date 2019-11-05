@@ -5,7 +5,7 @@ exports.up = function (knex) {
     t.bigInteger('updatedAt').defaultTo(+new Date());
 
     t.string('emailAddress', 120).nullable();
-    t.string('password', 36).nullable();
+    t.string('password', 255).nullable();
     t.string('firstName', 120).nullable();
     t.string('lastName', 120).nullable();
     t.string('mobileNo', 15).nullable();
