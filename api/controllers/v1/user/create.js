@@ -83,7 +83,7 @@ module.exports = {
       firstName: inputs.firstName,
       lastName: inputs.lastName,
       mobileNo: inputs.mobileNo,
-      gender: inputs.gender.toLowerCase(),
+      gender: inputs.gender && inputs.gender.toLowerCase(),
       location: inputs.locationId,
     })
       .intercept('E_UNIQUE', (e) => exits.emailAlreadyInUse({ error: e }))

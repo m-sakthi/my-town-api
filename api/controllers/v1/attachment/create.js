@@ -11,7 +11,7 @@
  * Create attachment.
  */
 module.exports = async function create(req, res) {
-  if (!req.file('file')) return res.badRequest('Required parameter `file` no present.');
+  if (!req.file('file')) return res.badRequest('Required parameter `file` not present.');
 
   const { s3Upload, s3UploadConfig, localDiskUploadConfig } = sails.config.custom;
 

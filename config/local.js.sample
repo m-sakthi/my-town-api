@@ -16,4 +16,18 @@ module.exports = {
   custom: {
     baseUrl: 'https://my-town-api-dev.fresco.me',
   },
+
+  s3Upload: false,
+
+  s3UploadConfig: {
+    adapter: require('skipper-s3'),
+    key: 'poiuytrewqasdfghjkl',
+    secret: 'poiuytresdfghjk,mnbvcxzaqwertyuiop',
+    bucket: 'some-bucketname',
+    host: 'https://somehost.net/'
+  },
+
+  localDiskUploadConfig: {
+    maxBytes: 10000000,
+  }
 };
