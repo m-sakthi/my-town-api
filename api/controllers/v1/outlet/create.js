@@ -1,11 +1,8 @@
 module.exports = {
 
-
   friendlyName: 'Create',
 
-
   description: 'Create Outlet.',
-
 
   inputs: {
     name: {
@@ -24,7 +21,6 @@ module.exports = {
     },
   },
 
-
   exits: {
     invalid: {
       responseType: 'badRequest',
@@ -37,19 +33,15 @@ module.exports = {
 
   },
 
-
   fn: async function (inputs, exits) {
     var newRecord = await Outlet.create({
       name: inputs.name.toLowerCase(),
       overview: inputs.overview,
-      address: inputs.address,
-      longitude: inputs.longitude,
-      latitude: inputs.latitude,
       status: 'active',
     })
-    // .intercept('E_UNIQUE', 'nameAlreadyInUse')
-    // .intercept({name: 'UsageError'}, 'invalid')
-    .fetch();
+      .intercept('E_UNIQUE', 'nameAlreadyInUse')
+      .intercept({ name: 'UsageError' }, 'invalid')
+      .fetch();
 
     return exits.success(newRecord);
 

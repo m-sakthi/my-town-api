@@ -4,13 +4,13 @@ exports.up = function (knex) {
     t.bigInteger('createdAt').defaultTo(+new Date());
     t.bigInteger('updatedAt').defaultTo(+new Date());
 
-    t.boolean('isPrimary').notNull();
-    t.string('doorNo').nullable();
-    t.text('line1').nullable();
+    t.boolean('isPrimary').notNull().defaultTo(false);
+    t.string('doorNo').notNull();
+    t.text('line1').notNull();
     t.text('line2').nullable();
-    t.string('state').nullable();
+    t.string('state').notNull();
     t.string('landmark').nullable();
-    t.string('pincode', 20).nullable();
+    t.string('pincode', 20).notNull();
     t.string('longitude', 12).nullable();
     t.string('latitude', 12, 8).nullable();
   });

@@ -17,12 +17,14 @@ module.exports = {
 
     doorNo: {
       type: 'string',
+      required: true,
       description: 'Door/Flat/Building number',
       example: '7G'
     },
 
     line1: {
       type: 'string',
+      required: true,
       description: 'Street/Locality name',
       example: 'Rainbow Colony'
     },
@@ -35,6 +37,7 @@ module.exports = {
 
     state: {
       type: 'string',
+      required: true,
       description: 'State',
       example: 'Tamilnadu'
     },
@@ -47,6 +50,7 @@ module.exports = {
 
     pincode: {
       type: 'string',
+      required: true,
       description: 'Pincode for your address',
       example: '600001'
     },
@@ -63,6 +67,10 @@ module.exports = {
       example: '15.887376'
     },
 
+    user: {
+      model: 'user'
+    },
+
     outlets: {
       collection: 'outlet',
       via: 'address',
@@ -75,6 +83,12 @@ module.exports = {
       through: 'useraddress',
     },
 
+  },
+
+  beforeDestroy: async (criteria, next) => {
+    await UserAddress.destroy({ address: criteria.where.id });
+    await OutletAddress.destroy({ address: criteria.where.id });
+    next();
   },
 
 };
