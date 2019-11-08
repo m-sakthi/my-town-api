@@ -4,7 +4,7 @@ exports.up = function (knex) {
     t.bigInteger('createdAt').defaultTo(+new Date());
     t.bigInteger('updatedAt').defaultTo(+new Date());
 
-    t.string('name').notNull();
+    t.string('name').notNull();    
   });
 };
 
