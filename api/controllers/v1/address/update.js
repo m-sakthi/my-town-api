@@ -1,10 +1,17 @@
 module.exports = {
 
-  friendlyName: 'Create',
+  friendlyName: 'Update',
 
-  description: 'Create Address.',
+  description: 'Update Address.',
 
   inputs: {
+    id: {
+      type: 'number',
+      required: true,
+      description: 'Address ID',
+      example: 1
+    },
+
     isPrimary: {
       type: 'boolean',
       description: 'true/false. Whether this location is primary for user',
@@ -13,14 +20,12 @@ module.exports = {
 
     doorNo: {
       type: 'string',
-      required: true,
       description: 'Door/Flat/Building number',
       example: '7G'
     },
 
     line1: {
       type: 'string',
-      required: true,
       description: 'Street/Locality name',
       example: 'Rainbow Colony'
     },
@@ -33,7 +38,6 @@ module.exports = {
 
     state: {
       type: 'string',
-      required: true,
       description: 'State',
       example: 'Tamilnadu'
     },
@@ -46,7 +50,6 @@ module.exports = {
 
     pincode: {
       type: 'string',
-      required: true,
       description: 'Pincode for your address',
       example: '600001'
     },
@@ -65,7 +68,6 @@ module.exports = {
 
     parentType: {
       type: 'string',
-      required: true,
       isIn: ['user', 'outlet'],
       description: 'Parent Type can be user/outlet',
       example: 'user'
@@ -73,7 +75,6 @@ module.exports = {
 
     parentId: {
       type: 'number',
-      required: true,
       description: 'User/Outlet ID',
       example: 1
     }
@@ -84,24 +85,43 @@ module.exports = {
     invalid: {
       responseType: 'badRequest',
     },
+
+    insufficientPrivilege: {
+      responseType: 'forbidden',
+    },
+
+    notFound: {
+      statusCode: 404,
+      description: 'Not found',
+    },
   },
 
   fn: async function (inputs, exits) {
+    let address = await Address.findOne(inputs.id);
+    if (!address) return exits.notFound({ error: 'Address not found' });
+    
+    if (address.user !== this.req.currentUser.id)
+      return exits.insufficientPrivilege();
+
     const { parentType, parentId } = inputs;
 
-    let child = await sails.config.knex(parentType)
-      .where({ id: parentId }).first();
+    let updatedRecord = await Address.updateOne(inputs.id)
+      .set(inputs)
+      .intercept({ name: 'UsageError' }, 'invalid');
 
-    if (!child) exits.notFound({ error: parentType + ' not found.' });
+    if (parentType && parentId) {
+      let child = await sails.config.knex(parentType)
+        .where({ id: parentId }).first();
+  
+      if (!child) exits.notFound({ error: parentType + ' not found.' });
+  
+      await sails.config.knex(parentType + 'address')
+        .insert({ [parentType]: parentId, address: newRecord.id });
 
-    let newRecord = await Address.create({...inputs, user: this.req.currentUser.id})
-      .intercept({ name: 'UsageError' }, 'invalid')
-      .fetch();
+      updatedRecord = { ...updatedRecord, [inputs.parentType]: child }
+    }
 
-    await sails.config.knex(parentType + 'address')
-      .insert({ [parentType]: parentId, address: newRecord.id });
-
-    return exits.success({ ...newRecord, [parentType]: child });
+    return exits.success(updatedRecord);
 
   }
 

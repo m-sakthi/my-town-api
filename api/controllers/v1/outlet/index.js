@@ -8,7 +8,10 @@ module.exports = {
 
 
   inputs: {
-
+    locationId: {
+      type: 'number',
+      description: 'Location ID',
+    }
   },
 
 
@@ -20,7 +23,12 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
-    var records = await Outlet.find();
+    let outletIds;
+    if (inputs.locationId)
+      outletIds = await sails.config.knex('locationoutlet')
+        .where({ location: inputs.locationId }).pluck('outlet');
+
+    var records = await Outlet.find(outletIds);
     return exits.success(records);
   }
 

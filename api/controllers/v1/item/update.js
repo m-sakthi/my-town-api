@@ -50,9 +50,7 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     var item = await Item.findOne(inputs.id);
-    if (!item) {
-      return exits.notFound({ error: 'Item not found' });
-    }
+    if (!item) return exits.notFound({ error: 'Item not found' });
 
     var payload = {};
     if (inputs.name != undefined) payload = Object.assign(payload, {

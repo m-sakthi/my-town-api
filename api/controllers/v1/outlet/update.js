@@ -1,11 +1,8 @@
 module.exports = {
 
-
   friendlyName: 'Update',
 
-
   description: 'Update category.',
-
 
   inputs: {
     id: {
@@ -34,7 +31,6 @@ module.exports = {
     },
   },
 
-
   exits: {
     invalid: {
       responseType: 'badRequest',
@@ -46,7 +42,6 @@ module.exports = {
     },
 
   },
-
 
   fn: async function (inputs, exits) {
     let outlet = await Outlet.findOne(inputs.id);
