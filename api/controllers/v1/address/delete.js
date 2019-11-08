@@ -30,8 +30,6 @@ module.exports = {
   fn: async function (inputs, exits) {
     let address = await Address.findOne(inputs.id);
     if (!address) return exits.notFound({ error: 'Address not found' });
-
-    console.log()
     
     if (address.user !== this.req.currentUser.id)
       return exits.insufficientPrivilege();
