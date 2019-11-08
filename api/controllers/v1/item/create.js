@@ -22,8 +22,15 @@ module.exports = {
       description: 'Some overview about that Item',
       example: 'All Provosional items will be available',
     },
+    
+    price: {
+      type: 'string',
+      required: true,
+      description: 'Price for the item',
+      example: '100',
+    },
 
-    category: {
+    categoryId: {
       type: 'number',
       required: true,
       description: 'Category to which the items is tagged to',
@@ -51,7 +58,7 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
-    let category = await Category.findOne(inputs.category);
+    let category = await Category.findOne(inputs.categoryId);
     if (!category) {
       return exits.notFound({ error: 'Category not found' });
     }
@@ -59,7 +66,8 @@ module.exports = {
     let newItemRecord = await Item.create({
       name: inputs.name.toLowerCase(),
       overview: inputs.overview,
-      category: inputs.category
+      price: inputs.price,
+      category: inputs.categoryId
     })
       .intercept('E_UNIQUE', 'nameAlreadyInUse')
       .intercept({ name: 'UsageError' }, 'invalid')

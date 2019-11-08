@@ -85,7 +85,7 @@ module.exports = {
       payload = Object.assign(payload, { overview: inputs.overview });
 
 
-    let updatedRecord = await OutletItem.update(inputs.id)
+    let updatedRecord = await OutletItem.updateOne(inputs.id)
       .set(payload)
       .intercept('E_UNIQUE', 'nameAlreadyInUse')
       .intercept({ name: 'UsageError' }, 'invalid');
