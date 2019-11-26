@@ -36,14 +36,12 @@ module.exports = {
 
   fn: async function (inputs, exits) {
 
-    // console.log("******** ", inputs.emailAddress)
     var userRecord = await User.findOne({
       emailAddress: inputs.emailAddress.toLowerCase(),
     });
 
     // If there was no matching user, respond thru the "badCombo" exit.
     if(!userRecord) {
-      console.log("*********** userRecord::", userRecord)
       throw 'badCombo';
     }
 

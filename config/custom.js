@@ -20,6 +20,9 @@ module.exports.custom = {
   // stripeSecret: 'sk_test_Zzd814nldl91104qor5911gjald',
   // …
 
+  // frxghtdu6512
+  // app51688772@heroku.com
+
   baseUrl: process.env.MY_TOWN_API_PRODUCTION_HTTPS_API_URL,
   jwt_token_secret: process.env.TOKEN_SECRET || 'Zzd814nldl91104qor5911gjald',
 
@@ -35,6 +38,9 @@ module.exports.custom = {
 
   localDiskUploadConfig: {
     maxBytes: 10000000,
-  }
+  },
+
+  verifyEmailAddresses: true,
+  emailProofTokenValidity: 86000,
 
 };

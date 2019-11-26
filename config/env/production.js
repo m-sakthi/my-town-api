@@ -379,6 +379,9 @@ module.exports = {
       maxBytes: 10000000,
     },
 
+    verifyEmailAddresses: true,
+    emailProofTokenValidity: 86000,
+
     // mailgunDomain: 'mg.example.com',
     // mailgunSecret: 'key-prod_fake_bd32301385130a0bafe030c',
     // stripeSecret: 'sk_prod__fake_Nfgh82401348jaDa3lkZ0d9Hm',
@@ -413,5 +416,13 @@ module.exports = {
     client: 'postgresql',
     connection: process.env.MY_TOWN_API_DATABASE_URL,
   }),
+
+  email: {
+    service: 'SES',
+    auth: {
+      user: process.env.MY_TOWN_API_SES_USERNAME,
+      pass: process.env.MY_TOWN_API_SES_PASSWORD
+    }
+  }
 
 };
