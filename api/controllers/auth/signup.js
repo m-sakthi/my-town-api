@@ -130,3 +130,17 @@ module.exports = {
   }
 
 };
+
+
+// sails.hooks.email.send(
+//   "verifyAccount",
+//   {
+//     fullName: "Joe",
+//     token: "Sasdfsdfsdfue"
+//   },
+//   {
+//     to: "msv300@gmail.com",
+//     subject: "Hi there"
+//   },
+//   function(err) {console.log(err || "It worked!");}
+// )
