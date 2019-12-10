@@ -84,7 +84,7 @@ module.exports = {
 
     // Build up data for the new user record and save it to the database.
     // (Also use `fetch` to retrieve the new ID so that we can use it below.)
-    var newUserRecord = await User.create({
+    var newUserRecord = await User.create(Object.assign({
       emailAddress: newEmailAddress,
       password: await sails.helpers.passwords.hashPassword(inputs.password),
       firstName: inputs.firstName,
@@ -92,30 +92,39 @@ module.exports = {
       mobileNo: inputs.mobileNo,
       gender: inputs.gender.toLowerCase(),
       location: inputs.locationId,
-    })
+    }, sails.config.custom.verifyEmailAddresses ? {
+      emailProofToken: await sails.helpers.strings.random('url-friendly'),
+      emailProofTokenExpiresAt: Date.now() + sails.config.custom.emailProofTokenValidity,
+      emailStatus: 'unconfirmed'
+    } : {}))
       .intercept('E_UNIQUE', 'emailAlreadyInUse')
       .intercept({ name: 'UsageError' }, 'invalid')
       .fetch();
 
-    // Store the user's new id in their session.
-    // this.req.session.userId = newUserRecord.id;
-
     // if (sails.config.custom.verifyEmailAddresses) {
-    //   // Send "confirm account" email
-    //   await sails.helpers.sendTemplateEmail.with({
-    //     to: newEmailAddress,
-    //     subject: 'Please confirm your account',
-    //     template: 'email-verify-account',
-    //     templateData: {
-    //       fullName: inputs.fullName,
+    //   sails.hooks.email.send(
+    //     "verifyAccount",
+    //     {
+    //       fullName: inputs.firstName + ' ' + inputs.lastName,
     //       token: newUserRecord.emailProofToken
-    //     }
-    //   });
-    // } else {
-    //   sails.log.info('Skipping new account email verification... (since `verifyEmailAddresses` is disabled)');
+    //     },
+    //     {
+    //       to: newEmailAddress,
+    //       subject: 'Please confirm your account'
+    //     },
+    //     (err) => { console.log(err || "It worked!"); }
+    //   )
+    //   // await sails.helpers.sendTemplateEmail.with({
+    //   //   to: newEmailAddress,
+    //   //   subject: 'Please confirm your account',
+    //   //   template: 'verify-account-email',
+    //   //   templateData: {
+    //   //     fullName: inputs.firstName + ' ' + inputs.lastName,
+    //   //     token: newUserRecord.emailProofToken
+    //   //   }
+    //   // });
     // }
 
-    // Since everything went ok, send our 200 response.
     return exits.success(newUserRecord);
 
   }

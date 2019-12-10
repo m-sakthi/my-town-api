@@ -57,6 +57,24 @@ module.exports = {
       example: 'male'
     },
 
+    emailProofToken: {
+      type: 'string',
+      description: 'A pseudorandom, probabilistically-unique token for use in our account verification emails.'
+    },
+
+    emailProofTokenExpiresAt: {
+      type: 'number',
+      description: 'A JS timestamp (epoch ms) representing the moment when this user\'s `emailProofToken` will expire (or 0 if the user currently has no such token).',
+      example: 1502844074211
+    },
+
+    emailStatus: {
+      type: 'string',
+      isIn: ['unconfirmed', 'changeRequested', 'confirmed'],
+      defaultsTo: 'unconfirmed',
+      description: 'The confirmation status of the user\'s email address.',
+    },
+
     location: {
       model: 'location'
     },
@@ -93,6 +111,6 @@ const pickInitials = (firstName, lastName) => {
     initial = firstName.slice(0, 2);
   else if (lastName)
     initial = lastName.slice(0, 2);
-  
+
   return initial.toUpperCase();
 };
