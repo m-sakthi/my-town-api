@@ -25,7 +25,7 @@ module.exports = {
     },
 
     price: {
-      type: 'string',
+      type: 'number',
       required: true,
       description: 'Price for the item',
       example: '100',
