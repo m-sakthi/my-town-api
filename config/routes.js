@@ -113,4 +113,15 @@ module.exports.routes = {
   'GET /api/v1/order':                           { action: 'v1/order/index' },
   'PUT /api/v1/order/:id':                       { action: 'v1/order/update' },
 
+  // Role Routes
+  'POST /api/v1/role':                           { action: 'v1/role/create' },
+  'GET /api/v1/role':                            { action: 'v1/role/index' },
+  'PATCH /api/v1/role/:id':                      { action: 'v1/role/update' },
+  'DELETE /api/v1/role/:id':                     { action: 'v1/role/delete' },
+
+  // UserRole Routes
+  'POST /api/v1/userRole':                       { action: 'v1/userRole/create' },
+  'GET /api/v1/userRole':                        { action: 'v1/userRole/index' },
+  'DELETE /api/v1/userRole/:id':                 { action: 'v1/userRole/delete' },
+
 };

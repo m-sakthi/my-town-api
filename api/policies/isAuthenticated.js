@@ -11,16 +11,25 @@ module.exports = function (req, res, next) {
         token = credentials;
       }
     } else {
-      return res.json(401, { error: 'Wrong authorization format' });
+      return res.json(401, { error: 'Invalid authorization header.' });
     }
   } else {
-    return res.json(401, { error: 'Authorization header not found' });
+    return res.json(401, { error: 'Authorization header not found.' });
   }
 
   JwtAuth.verifyToken(token, async function (err, decodedToken) {
     if (err) return res.json(401, { error: 'Invalid Token' });
     req.token = decodedToken.sub;
-    req.currentUser = await User.findOne(decodedToken.sub).omit(['password']);
+
+    const user = await User.findOne(decodedToken.sub).omit(['password']);
+    const roles = await sails.config.knex.select('name', 'resourceId', 'resourceType')
+      .from('role')
+      .join('user_role', function () {
+        this.on('role.id', '=', 'user_role.role', 'resourceType')
+          .andOn('user_role.user', '=', user.id)
+      });
+
+    req.currentUser = { ...user, roles };
     next();
   });
 };
