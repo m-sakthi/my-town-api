@@ -31,6 +31,36 @@ module.exports = {
       example: 10,
     },
 
+    startTime: {
+      type: 'number',
+      // columnType: 'bigint',
+      required: true,
+      description: 'Offer Start Time',
+      example: 1502844074211,
+    },
+
+    endTime: {
+      type: 'number',
+      // columnType: 'bigint',
+      required: true,
+      description: 'Offer End Time',
+      example: 1502844074211,
+    },
+
+    resourceType: {
+      type: 'string',
+      allowNull: true,
+      isIn: ['Outlet', 'OutletItem', 'Item', 'LocationOutlet'],
+      description: 'To which resource the offer is tagged to.',
+      example: 'Outlet',
+    },
+
+    resourceId: {
+      type: 'number',
+      description: 'To which resource ID the offer is tagged to.',
+      example: 100,
+    },
+
   },
 
 };

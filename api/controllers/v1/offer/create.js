@@ -25,7 +25,33 @@ module.exports = {
       required: true,
       description: '% off from original price',
       example: 10
-    }
+    },
+
+    startTime: {
+      type: 'number',
+      required: true,
+      description: 'Offer Start Time',
+      example: 1502844074211,
+    },
+
+    endTime: {
+      type: 'number',
+      required: true,
+      description: 'Offer End Time',
+      example: 1502844074211,
+    },
+
+    resourceType: {
+      type: 'string',
+      description: 'To which resource the offer is tagged to.',
+      example: 'Outlet',
+    },
+
+    resourceId: {
+      type: 'number',
+      description: 'To which resource ID the offer is tagged to.',
+      example: 100,
+    },
   },
 
   exits: {
@@ -39,6 +65,10 @@ module.exports = {
       name: inputs.name,
       overview: inputs.overview,
       percentage: inputs.percentage,
+      startTime: inputs.startTime,
+      endTime: inputs.endTime,
+      resourceType: inputs.resourceType,
+      resourceId: inputs.resourceId
     })
       .intercept({ name: 'UsageError' }, 'invalid')
       .fetch();
