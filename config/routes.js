@@ -44,6 +44,7 @@ module.exports.routes = {
   'GET /api/v1/user/profile':                   { action: 'v1/user/profile' },
   'GET /api/v1/user/:id':                       { action: 'v1/user/show' },
   'POST /api/v1/user':                          { action: 'v1/user/create' },
+  'PUT /api/v1/user/:id':                       { action: 'v1/user/update' },
   'DELETE /api/v1/user/:id':                    { action: 'v1/user/delete' },
 
   // Location routes
