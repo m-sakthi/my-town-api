@@ -28,17 +28,15 @@ module.exports = {
     },
 
     startTime: {
-      type: 'number',
+      type: 'string',
       required: true,
-      description: 'Offer Start Time',
-      example: 1502844074211,
+      description: 'Offer Start Time in epoch timestamp'
     },
 
     endTime: {
-      type: 'number',
+      type: 'string',
       required: true,
-      description: 'Offer End Time',
-      example: 1502844074211,
+      description: 'Offer End Time in epoch timestamp'
     },
 
     resourceType: {
@@ -65,8 +63,8 @@ module.exports = {
       name: inputs.name,
       overview: inputs.overview,
       percentage: inputs.percentage,
-      startTime: inputs.startTime,
-      endTime: inputs.endTime,
+      startTime: new Date(parseInt(inputs.startTime)),
+      endTime: new Date(parseInt(inputs.endTime)),
       resourceType: inputs.resourceType,
       resourceId: inputs.resourceId
     })

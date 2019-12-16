@@ -6,7 +6,7 @@ exports.up = function (knex) {
 
     t.string('name').notNull();
     t.text('overview').nullable();
-    t.decimal('percentage', 3, 2).notNull();
+    t.decimal('percentage', 5, 2).notNull();
   });
 };
 

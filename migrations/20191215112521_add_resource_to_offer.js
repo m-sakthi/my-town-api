@@ -2,8 +2,8 @@ exports.up = function (knex) {
   return knex.schema.table('offer', function (t) {
     t.string('resourceType', 60).nullable();
     t.bigInteger('resourceId').nullable();
-    t.bigInteger('startTime');
-    t.bigInteger('endTime');
+    t.timestamp('startTime');
+    t.timestamp('endTime');
   })
 };
 

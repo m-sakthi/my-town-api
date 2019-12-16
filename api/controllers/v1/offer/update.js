@@ -32,15 +32,13 @@ module.exports = {
     },
 
     startTime: {
-      type: 'number',
-      description: 'Offer Start Time',
-      example: 1502844074211,
+      type: 'string',
+      description: 'Offer Start Time in epoch timestamp'
     },
 
     endTime: {
-      type: 'number',
-      description: 'Offer End Time',
-      example: 1502844074211,
+      type: 'string',
+      description: 'Offer End Time in epoch timestamp'
     },
 
     resourceType: {
@@ -71,25 +69,25 @@ module.exports = {
 
     let payload = {};
     if (inputs.name)
-      payload = Object.assign(payload, { name: inputs.name });
+      payload = { ...payload, name: inputs.name };
 
     if (inputs.overview)
-      payload = Object.assign(payload, { overview: inputs.overview });
+      payload = { ...payload, overview: inputs.overview };
 
     if (inputs.percentage)
-      payload = Object.assign(payload, { percentage: inputs.percentage });
+      payload = { ...payload, percentage: inputs.percentage };
 
     if (inputs.resourceType)
-      payload = Object.assign(payload, { resourceType: inputs.resourceType });
+      payload = { ...payload, resourceType: inputs.resourceType };
 
     if (inputs.resourceId)
-      payload = Object.assign(payload, { resourceId: parseInt(inputs.resourceId) });
+      payload = { ...payload, resourceId: parseInt(inputs.resourceId) };
 
     if (inputs.startTime)
-      payload = Object.assign(payload, { startTime: parseInt(inputs.startTime) });
+      payload = { ...payload, startTime: new Date(parseInt(inputs.startTime)) };
 
     if (inputs.endTime)
-      payload = Object.assign(payload, { endTime: parseInt(inputs.endTime) });
+      payload = { ...payload, endTime: new Date(parseInt(inputs.endTime)) };
 
     let updatedRecord = await Offer.updateOne(inputs.id)
       .set(payload)
