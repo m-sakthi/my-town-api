@@ -64,7 +64,8 @@ module.exports = {
     },
 
     emailProofTokenExpiresAt: {
-      type: 'number',
+      type: 'string',
+      // columnType: 'bigint',
       allowNull: true,
       description: 'A JS timestamp (epoch ms) representing the moment when this user\'s `emailProofToken` will expire (or 0 if the user currently has no such token).',
       example: 1502844074211

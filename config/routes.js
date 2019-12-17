@@ -125,4 +125,19 @@ module.exports.routes = {
   'GET /api/v1/userRole':                        { action: 'v1/userRole/index' },
   'DELETE /api/v1/userRole/:id':                 { action: 'v1/userRole/delete' },
 
+  // Slot Routes
+  'POST /api/v1/slot':                           { action: 'v1/slot/create' },
+  'GET /api/v1/slot':                            { action: 'v1/slot/index' },
+  'DELETE /api/v1/slot/:id':                     { action: 'v1/slot/delete' },
+
+  // SlotTime Routes
+  'POST /api/v1/slotTime':                       { action: 'v1/slotTime/create' },
+  'GET /api/v1/slotTime':                        { action: 'v1/slotTime/index' },
+  'DELETE /api/v1/slotTime/:id':                 { action: 'v1/slotTime/delete' },
+
+  // SlotBooking Routes
+  'POST /api/v1/slotBooking':                    { action: 'v1/slotBooking/create' },
+  'GET /api/v1/slotBooking':                     { action: 'v1/slotBooking/index' },
+  'PUT /api/v1/slotBooking/:id':                 { action: 'v1/slotBooking/update' },
+
 };

@@ -60,7 +60,7 @@ module.exports = {
     if (!outlet) {
       return exits.notFound({ error: 'Outlet not found' });
     }
-    
+
     var item = await Item.findOne(inputs.item);
     if (!item) {
       return exits.notFound({ error: 'Item not found' });
@@ -81,8 +81,8 @@ module.exports = {
       price: inputs.price,
       overview: inputs.overview,
     })
-    .intercept({name: 'UsageError'}, 'invalid')
-    .fetch();
+      .intercept({ name: 'UsageError' }, 'invalid')
+      .fetch();
 
     return exits.success(newOutletItemRecord);
 

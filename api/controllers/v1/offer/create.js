@@ -25,7 +25,31 @@ module.exports = {
       required: true,
       description: '% off from original price',
       example: 10
-    }
+    },
+
+    startTime: {
+      type: 'string',
+      required: true,
+      description: 'Offer Start Time in epoch timestamp'
+    },
+
+    endTime: {
+      type: 'string',
+      required: true,
+      description: 'Offer End Time in epoch timestamp'
+    },
+
+    resourceType: {
+      type: 'string',
+      description: 'To which resource the offer is tagged to.',
+      example: 'Outlet',
+    },
+
+    resourceId: {
+      type: 'number',
+      description: 'To which resource ID the offer is tagged to.',
+      example: 100,
+    },
   },
 
   exits: {
@@ -39,6 +63,10 @@ module.exports = {
       name: inputs.name,
       overview: inputs.overview,
       percentage: inputs.percentage,
+      startTime: new Date(parseInt(inputs.startTime)),
+      endTime: new Date(parseInt(inputs.endTime)),
+      resourceType: inputs.resourceType,
+      resourceId: inputs.resourceId
     })
       .intercept({ name: 'UsageError' }, 'invalid')
       .fetch();

@@ -31,6 +31,38 @@ module.exports = {
       example: 10,
     },
 
+    startTime: {
+      type: 'ref',
+      columnType: 'datetime',
+      required: true,
+      description: 'Offer Start Time',
+      example: "2019/12/11 22:21:21",
+      custom: (d) => _.isDate(d)
+    },
+
+    endTime: {
+      type: 'ref',
+      columnType: 'datetime',
+      required: true,
+      description: 'Offer End Time',
+      example: "2019/12/21 22:21:21",
+      custom: (d) => _.isDate(d)
+    },
+
+    resourceType: {
+      type: 'string',
+      allowNull: true,
+      isIn: ['Outlet', 'OutletItem', 'Item', 'LocationOutlet'],
+      description: 'To which resource the offer is tagged to.',
+      example: 'Outlet',
+    },
+
+    resourceId: {
+      type: 'number',
+      description: 'To which resource ID the offer is tagged to.',
+      example: 100,
+    },
+
   },
 
 };
