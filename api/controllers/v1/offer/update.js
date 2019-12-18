@@ -41,6 +41,12 @@ module.exports = {
       description: 'Offer End Time in epoch timestamp'
     },
 
+    sequence: {
+      type: 'number',
+      description: 'Which sequence it should appear',
+      example: 1,
+    },
+
     resourceType: {
       type: 'string',
       description: 'To which resource the offer is tagged to.',
@@ -82,6 +88,9 @@ module.exports = {
 
     if (inputs.resourceId)
       payload = { ...payload, resourceId: parseInt(inputs.resourceId) };
+
+    if (inputs.sequence)
+      payload = { ...payload, sequence: parseInt(inputs.sequence) };
 
     if (inputs.startTime)
       payload = { ...payload, startTime: new Date(parseInt(inputs.startTime)) };

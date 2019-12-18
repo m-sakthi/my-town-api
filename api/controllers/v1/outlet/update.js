@@ -2,13 +2,13 @@ module.exports = {
 
   friendlyName: 'Update',
 
-  description: 'Update category.',
+  description: 'Update Outlet.',
 
   inputs: {
     id: {
       type: 'number',
       required: true,
-      description: 'Category ID',
+      description: 'Outlet ID',
     },
 
     name: {

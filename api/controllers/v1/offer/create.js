@@ -39,6 +39,13 @@ module.exports = {
       description: 'Offer End Time in epoch timestamp'
     },
 
+    sequence: {
+      type: 'number',
+      required: true,
+      description: 'Which sequence it should appear',
+      example: 1,
+    },
+
     resourceType: {
       type: 'string',
       description: 'To which resource the offer is tagged to.',
@@ -65,6 +72,7 @@ module.exports = {
       percentage: inputs.percentage,
       startTime: new Date(parseInt(inputs.startTime)),
       endTime: new Date(parseInt(inputs.endTime)),
+      sequence: inputs.sequence,
       resourceType: inputs.resourceType,
       resourceId: inputs.resourceId
     })
