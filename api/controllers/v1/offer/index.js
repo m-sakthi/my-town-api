@@ -6,6 +6,19 @@ module.exports = {
 
   inputs: {
 
+    resourceType: {
+      type: 'string',
+      isIn: ['Outlet', 'OutletItem', 'Item', 'LocationOutlet'],
+      description: 'To which resource the offer is tagged to.',
+      example: 'Outlet',
+    },
+
+    resourceId: {
+      type: 'number',
+      description: 'To which resource ID the offer is tagged to.',
+      example: 100,
+    },
+
   },
 
   exits: {
@@ -15,7 +28,7 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
-    var records = await Offer.find();
+    var records = await Offer.find(inputs).sort('sequence');
     return exits.success(records);
   }
 

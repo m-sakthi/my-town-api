@@ -31,6 +31,20 @@ module.exports = {
       example: '100',
     },
 
+    serviceable: {
+      type: 'boolean',
+      defaultsTo: false,
+      description: 'Items is serviceable',
+      example: true,
+    },
+
+    deliverable: {
+      type: 'boolean',
+      defaultsTo: false,
+      description: 'Items is deliverable',
+      example: true,
+    },
+
     categoryId: {
       type: 'number',
       description: 'Category to which the items is tagged to',
@@ -59,7 +73,7 @@ module.exports = {
     var item = await Item.findOne(inputs.id);
     if (!item) return exits.notFound({ error: 'Item not found' });
 
-    var payload = {};
+    var payload = inputs;
     if (inputs.name !== undefined) payload = Object.assign(payload, {
       name: inputs.name.toLowerCase()
     });

@@ -69,6 +69,7 @@ module.exports.routes = {
   'POST /api/v1/outlet':                        { action: 'v1/outlet/create' },
   'PUT /api/v1/outlet/:id':                     { action: 'v1/outlet/update' },
   'DELETE /api/v1/outlet/:id':                  { action: 'v1/outlet/delete' },
+  'GET /api/v1/outlet/:id':                     { action: 'v1/outlet/show' },
 
   // Sub Category
   'GET /api/v1/item':                           { action: 'v1/item/index' },

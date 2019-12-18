@@ -49,6 +49,12 @@ module.exports = {
       through: 'outletaddress',
     },
 
+    items: {
+      collection: 'item',
+      via: 'outlet',
+      through: 'outletitem',
+    }
+
   },
 
 };

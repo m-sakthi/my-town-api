@@ -31,8 +31,28 @@ module.exports = {
       example: '100',
     },
 
+    serviceable: {
+      type: 'boolean',
+      defaultsTo: false,
+      description: 'Items is serviceable',
+      example: true,
+    },
+
+    deliverable: {
+      type: 'boolean',
+      defaultsTo: false,
+      description: 'Items is deliverable',
+      example: true,
+    },
+
     category: {
       model: 'category',
+    },
+
+    outlets: {
+      collection: 'outlet',
+      via: 'item',
+      through: 'outletitem',
     },
 
   },

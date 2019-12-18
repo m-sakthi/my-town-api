@@ -49,6 +49,13 @@ module.exports = {
       custom: (d) => _.isDate(d)
     },
 
+    sequence: {
+      type: 'number',
+      required: true,
+      description: 'Which sequence it should appear',
+      example: 1,
+    },
+
     resourceType: {
       type: 'string',
       allowNull: true,

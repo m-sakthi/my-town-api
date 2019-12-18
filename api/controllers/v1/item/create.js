@@ -35,7 +35,21 @@ module.exports = {
       required: true,
       description: 'Category to which the items is tagged to',
       example: 12,
-    }
+    },
+
+    serviceable: {
+      type: 'boolean',
+      defaultsTo: false,
+      description: 'Items is serviceable',
+      example: true,
+    },
+
+    deliverable: {
+      type: 'boolean',
+      defaultsTo: false,
+      description: 'Items is deliverable',
+      example: true,
+    },
   },
 
 

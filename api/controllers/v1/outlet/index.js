@@ -31,13 +31,19 @@ module.exports = {
 
     let records = await Outlet.find(outletIds);
 
-    // let currentTime = new Date();
-    // const offers = await Offer.find({
-    //   resourceId: outletIds,
-    //   resourceType: 'Outlet',
-    //   startTime: { '<=': currentTime },
-    //   endTime: { '>=': currentTime },
-    // });
+    let currentTime = new Date();
+    const offers = await Offer.find({
+      resourceId: outletIds,
+      resourceType: 'Outlet',
+      startTime: { '<=': currentTime },
+      endTime: { '>=': currentTime },
+    }).sort('sequence');
+
+    records = records.map(r => {
+      outletOffers = offers.filter(o => parseInt(o.resourceId) === parseInt(r.id))
+      if (offers.length) r.offers = outletOffers;
+      return r;
+    });
 
     // let outlets = await knex
     //   .select('outlet.id', 'outlet.name', 'outlet.overview', 'outlet.status',
@@ -51,17 +57,7 @@ module.exports = {
     //       .andOn('offer.resourceType', '=', knex.raw('?', 'Outlet'))
     //   });
 
-    // console.log('outlets::', outlets);
-
     return exits.success(records);
   }
 
 };
-
-// records = [{ id: 1, name: 'something1' }, { id: 2, name: 'anyName2' }, { id: 3, name: 'anything' }]
-// offers = [{ resourceId: 1 }, { resourceId: 2 }]
-// records.map(r => {
-//   offer = offers.filter(o => o.resourceId === r.id)[0]
-//   if (offer) r.offer = offer
-//   return r;
-// })
