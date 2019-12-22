@@ -8,4 +8,4 @@ module.exports.notify = admin.initializeApp({
   databaseURL: process.env.NODE_ENV === "production" ?
     process.env.MY_TOWN_API_FIREBASE_NOTIFICATION_DB_URL :
     "https://mytownbusiness-52f78.firebaseio.com/"
-});
+}, 'my-town-api-dev');
