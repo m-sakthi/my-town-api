@@ -428,7 +428,7 @@ module.exports = {
   },
 
   notify: firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert(process.env.MY_TOWN_API_FIREBASE_NOTIFICATION),
+    credential: firebaseAdmin.credential.cert(JSON.parse(process.env.MY_TOWN_API_FIREBASE_NOTIFICATION)),
     databaseURL: process.env.MY_TOWN_API_FIREBASE_NOTIFICATION_DB_URL,
   }),
 
