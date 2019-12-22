@@ -19,6 +19,8 @@
  * https://sailsjs.com/docs/concepts/deployment
  */
 
+const firebaseAdmin = require("firebase-admin");
+
 module.exports = {
 
 
@@ -423,6 +425,11 @@ module.exports = {
       user: process.env.MY_TOWN_API_SES_USERNAME,
       pass: process.env.MY_TOWN_API_SES_PASSWORD
     }
-  }
+  },
+
+  notify: firebaseAdmin.initializeApp({
+    credential: firebaseAdmin.credential.cert(process.env.MY_TOWN_API_FIREBASE_NOTIFICATION),
+    databaseURL: process.env.MY_TOWN_API_FIREBASE_NOTIFICATION_DB_URL,
+  }),
 
 };

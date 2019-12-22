@@ -155,6 +155,4 @@ swagger.json
 # Firebase notification config
 ################################################
 
-swagger.json
-
 firebase_notification_config.json
