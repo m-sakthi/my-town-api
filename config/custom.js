@@ -43,4 +43,11 @@ module.exports.custom = {
   verifyEmailAddresses: true,
   emailProofTokenValidity: 86000,
 
+  // Model constant variables
+  device: {
+    1: 'andriod',
+    2: 'ios',
+    3: 'web'
+  }
+
 };

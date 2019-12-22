@@ -141,4 +141,10 @@ module.exports.routes = {
   'GET /api/v1/slotBooking':                     { action: 'v1/slotBooking/index' },
   'PUT /api/v1/slotBooking/:id':                 { action: 'v1/slotBooking/update' },
 
+  // Device Routes
+  'POST /api/v1/device':                    { action: 'v1/device/create' },
+  'GET /api/v1/device':                     { action: 'v1/device/index' },
+  'DELETE /api/v1/device/:id':              { action: 'v1/device/delete' },
+  'POST /api/v1/device/notify':             { action: 'v1/device/notify' },
+
 };
