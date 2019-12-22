@@ -62,6 +62,14 @@ module.exports = {
       },
     };
 
+    // sails.config.notify.messaging().sendToDevice(registrationToken, payload, options)
+    //   .then(function (response) {
+    //     console.log("Successfully sent message:", response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log("Error sending message:", error);
+    //   });
+
     try {
       let response = await sails.config.notify.messaging().sendMulticast(payload)
       if (response.failureCount > 0) {
