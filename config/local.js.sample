@@ -8,6 +8,18 @@
  * https://sailsjs.com/docs/concepts/configuration/the-local-js-file
  */
 
+const AWS = require('aws-sdk');
+const admin = require("firebase-admin");
+
+// Make sure you have this firebase_notification_config file is present
+const serviceAccount = require("../firebase_notification_config.json")
+
+AWS.config.update({
+  accessKeyId: 'asdfsadfasdfsadfasdafsadfsadfasdf',
+  secretAccessKey: 'asdfnaslibdfsalfns+asodjfns',
+  region: 'ap-south-1',
+});
+
 module.exports = {
 
   // Any configuration settings may be overridden below, whether it's built-in Sails
@@ -15,19 +27,50 @@ module.exports = {
 
   custom: {
     baseUrl: 'https://my-town-api-dev.fresco.me',
+
+    s3Upload: false,
+
+    s3UploadConfig: {
+      adapter: require('skipper-s3'),
+      key: 'poiuytrewqasdfghjkl',
+      secret: 'poiuytresdfghjk,mnbvcxzaqwertyuiop',
+      bucket: 'some-bucketname',
+      host: 'https://somehost.net/'
+    },
+
+    localDiskUploadConfig: {
+      maxBytes: 10000000,
+    },
   },
 
-  s3Upload: false,
+  knex: require('knex')({
+    client: 'postgresql',
+    connection: 'postgresql://postgres:postgres@localhost:5432/my_town_new',
+  }),
 
-  s3UploadConfig: {
-    adapter: require('skipper-s3'),
-    key: 'poiuytrewqasdfghjkl',
-    secret: 'poiuytresdfghjk,mnbvcxzaqwertyuiop',
-    bucket: 'some-bucketname',
-    host: 'https://somehost.net/'
+  // SES Email config
+  email: {
+    service: 'SES',
+    auth: {
+      user: 'oiuytredfghjk,mnbv',
+      pass: 'oiuytrewasdfghjkl,mnbvcxcvbnm'
+    },
+    templateDir: 'views/emailTemplates',
+    from: 'poiuytr@gmail.com',
+    testMode: false,
+    ssl: true
+    // testMode: true
   },
 
-  localDiskUploadConfig: {
-    maxBytes: 10000000,
-  }
+  // AWS Configs
+  AWS: {
+    s3: new AWS.S3({ bucketName: 'my-town-api-attachments' }),
+    sns: new AWS.SNS({ region: "ap-southeast-1" }),
+  },
+
+  notify: admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://somedb-12345.firebaseio.com/"
+  }),
+
 };

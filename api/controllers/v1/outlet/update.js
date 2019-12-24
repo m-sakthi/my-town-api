@@ -29,6 +29,11 @@ module.exports = {
       isIn: ['active', 'deleted'],
       defaultsTo: 'active',
     },
+
+    attachmentIds: {
+      type: 'string',
+      description: 'Comma seperated Attachement IDs'
+    },
   },
 
   exits: {
@@ -67,6 +72,14 @@ module.exports = {
       .set(payload)
       .intercept('E_UNIQUE', 'nameAlreadyInUse')
       .intercept({ name: 'UsageError' }, 'invalid');
+
+    if (inputs.attachmentIds) {
+      const values = inputs.attachmentIds.split(",").map(i => ({
+        outlet: inputs.id,
+        attachment: parseInt(i.trim()),
+      }));
+      await sails.config.knex.insert(values).into('outlet_attachment');
+    }
 
     return exits.success(updatedRecord);
 

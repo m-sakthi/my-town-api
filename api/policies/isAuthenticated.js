@@ -11,10 +11,10 @@ module.exports = function (req, res, next) {
         token = credentials;
       }
     } else {
-      return res.json(401, { error: 'Invalid authorization header.' });
+      return res.status(401).json({ error: 'Invalid authorization header.' });
     }
   } else {
-    return res.json(401, { error: 'Authorization header not found.' });
+    return res.status(401).json({ error: 'Authorization header not found.' });
   }
 
   JwtAuth.verifyToken(token, async function (err, decodedToken) {

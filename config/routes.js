@@ -35,9 +35,10 @@ module.exports.routes = {
 
   // CUSTOM ROUTES
 
-  'POST /api/v1/auth/login':                   { action: 'auth/login' },
-  'POST /api/v1/auth/signup':                  { action: 'auth/signup' },
-  'POST /api/v1/auth/confirm':                 { action: 'auth/confirm' },
+  'POST /api/v1/auth/login':                    { action: 'auth/login' },
+  'POST /api/v1/auth/signup':                   { action: 'auth/signup' },
+  'POST /api/v1/auth/confirm':                  { action: 'auth/confirm' },
+  'POST /api/v1/auth/confirmOtp':               { action: 'auth/confirm-otp' },
 
   // User routes
   'GET /api/v1/user':                           { action: 'v1/user/index' },

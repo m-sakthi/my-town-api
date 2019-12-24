@@ -13,6 +13,25 @@
 module.exports = async function create(req, res) {
   if (!req.file('file')) return res.badRequest('Required parameter `file` not present.');
 
+  // let data = {
+  //   Bucket: 'jellyfishBucket',
+  //   Key: 'image1',
+  //   Body: req.file('file')._files[0].stream._readableState.buffer,
+  //   ACL: 'public-read',
+  //   ContentEncoding: 'base64',
+  //   ContentType: 'image/png'
+  // };
+
+  // sails.config.AWS.s3.upload(data, function (err, response) {
+  //   if (err) {
+  //     console.log('Error uploading Image!', err);
+  //     return res.json({error: err})
+  //   } else {
+  //     console.log('Image upload successfully!', response);
+  //     return res.json({message: 'Image upload successfully!'})
+  //   }
+  // } )
+
   const { s3Upload, s3UploadConfig, localDiskUploadConfig } = sails.config.custom;
 
   let config = localDiskUploadConfig, downloadBaseUrl = '';
@@ -37,5 +56,4 @@ module.exports = async function create(req, res) {
         return res.badRequest(e);
       }
     });
-
 };

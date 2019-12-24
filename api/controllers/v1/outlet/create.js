@@ -19,6 +19,11 @@ module.exports = {
       description: 'Some overview about that Outlet',
       example: 'All Provosional items will be available',
     },
+
+    attachmentIds: {
+      type: 'string',
+      description: 'Comma seperated Attachement IDs'
+    },
   },
 
   exits: {
@@ -43,8 +48,15 @@ module.exports = {
       .intercept({ name: 'UsageError' }, 'invalid')
       .fetch();
 
-    return exits.success(newRecord);
+    if (inputs.attachmentIds) {
+      const values = inputs.attachmentIds.split(",").map(i => ({
+        outlet: newRecord.id,
+        attachment: parseInt(i.trim()),
+      }));
+      await sails.config.knex.insert(values).into('outlet_attachment');
+    }
 
+    return exits.success(newRecord);
   }
 
 };
