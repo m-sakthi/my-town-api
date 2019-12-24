@@ -15,7 +15,6 @@ module.exports = {
   fn: async function (inputs, exits) {
 
     const { currentUser } = this.req;
-
     return exits.success(currentUser);
 
   }

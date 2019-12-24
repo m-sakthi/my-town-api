@@ -71,7 +71,7 @@ module.exports = {
 
     emailAlreadyInUse: {
       statusCode: 400,
-      description: 'The provided email address is already in use.',
+      description: 'The provided email address or mobile is already in use.',
     },
 
   },
@@ -80,11 +80,11 @@ module.exports = {
     if (inputs.locationId && !await Location.findOne(inputs.locationId))
       return exits.notFound({ error: 'Location not found' });
 
-    var newEmailAddress = inputs.emailAddress.toLowerCase();
+    let newEmailAddress = inputs.emailAddress.toLowerCase();
 
-    // Build up data for the new user record and save it to the database.
-    // (Also use `fetch` to retrieve the new ID so that we can use it below.)
-    var newUserRecord = await User.create(Object.assign({
+    const { verifyEmailAddresses, verifyMobileNumber, emailProofTokenValidity } = sails.config.custom;
+
+    let newUser = {
       emailAddress: newEmailAddress,
       password: await sails.helpers.passwords.hashPassword(inputs.password),
       firstName: inputs.firstName,
@@ -92,16 +92,32 @@ module.exports = {
       mobileNo: inputs.mobileNo,
       gender: inputs.gender.toLowerCase(),
       location: inputs.locationId,
-    }, sails.config.custom.verifyEmailAddresses ? {
-      emailProofToken: await sails.helpers.strings.random('url-friendly'),
-      emailProofTokenExpiresAt: Date.now() + sails.config.custom.emailProofTokenValidity,
-      emailStatus: 'unconfirmed'
-    } : {}))
+    };
+
+    if (verifyEmailAddresses)
+      newUser = {
+        ...newUser,
+        emailProofToken: await sails.helpers.strings.random('url-friendly'),
+        emailProofTokenExpiresAt: Date.now() + emailProofTokenValidity,
+        emailStatus: 'unconfirmed'
+      };
+
+    if (verifyMobileNumber) {
+      newUser = {
+        ...newUser,
+        mobileVerificationToken: parseInt(Array(6).fill(1).map(i => Math.round(Math.random()*9)).join('')),
+        mobileVerificationStatus: 1
+      }
+    }
+
+    // Build up data for the new user record and save it to the database.
+    // (Also use `fetch` to retrieve the new ID so that we can use it below.)
+    let newUserRecord = await User.create(newUser)
       .intercept('E_UNIQUE', 'emailAlreadyInUse')
       .intercept({ name: 'UsageError' }, 'invalid')
       .fetch();
 
-    // if (sails.config.custom.verifyEmailAddresses) {
+    // if (verifyEmailAddresses) {
     //   sails.hooks.email.send(
     //     "verifyAccount",
     //     {
@@ -124,6 +140,15 @@ module.exports = {
     //   //   }
     //   // });
     // }
+
+    if (verifyMobileNumber) {
+      sails.config.AWS.sns.publish({
+        Message: newUserRecord.mobileVerificationToken,
+        PhoneNumber: newUserRecord.mobileNo,
+      }).promise()
+        .then(data => console.log("SMS sent successfully " + data))
+        .catch(err => console.error(err, err.stack));
+    }
 
     return exits.success(newUserRecord);
 

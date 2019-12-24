@@ -23,6 +23,13 @@ module.exports = {
       description: 'Full description of the file with path',
     },
 
+    nature: {
+      type: 'number',
+      defaultsTo: 1,
+      isIn: [1, 2, 3], // 1 -> unclassified, 2 -> banner, 3 -> gallery
+      description: 'Nature or Type of image',
+    },
+
     creator: {
       model: 'user',
     }

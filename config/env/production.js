@@ -20,6 +20,14 @@
  */
 
 const firebaseAdmin = require("firebase-admin");
+const AWS = require('aws-sdk');
+
+AWS.config.update({
+  accessKeyId: process.env.MY_TOWN_API_AWS_KEY,
+  secretAccessKey: process.env.MY_TOWN_API_AWS_SECRET,
+  region: 'ap-south-1',
+});
+
 
 module.exports = {
 
@@ -371,8 +379,8 @@ module.exports = {
 
     s3UploadConfig: {
       adapter: require('skipper-s3'),
-      key: process.env.MY_TOWN_API_AWS_S3_KEY,
-      secret: process.env.MY_TOWN_API_AWS_S3_SECRET,
+      key: process.env.MY_TOWN_API_AWS_KEY,
+      secret: process.env.MY_TOWN_API_AWS_SECRET,
       bucket: process.env.MY_TOWN_API_AWS_S3_BUCKET,
       host: process.env.MY_TOWN_API_AWS_S3_HOST,
     },
@@ -381,8 +389,22 @@ module.exports = {
       maxBytes: 10000000,
     },
 
-    verifyEmailAddresses: true,
+    verifyEmailAddresses: false,
+    verifyMobileNumber: true,
     emailProofTokenValidity: 86000,
+
+    // Model constant variables
+    device: {
+      1: 'andriod',
+      2: 'ios',
+      3: 'web'
+    },
+
+    mobileNumberStatus: {
+      unconfirmed: 1,
+      changeRequested: 2,
+      confirmed: 3,
+    }
 
     // mailgunDomain: 'mg.example.com',
     // mailgunSecret: 'key-prod_fake_bd32301385130a0bafe030c',
@@ -424,12 +446,22 @@ module.exports = {
     auth: {
       user: process.env.MY_TOWN_API_SES_USERNAME,
       pass: process.env.MY_TOWN_API_SES_PASSWORD
-    }
+    },
+    emplateDir: 'views/emailTemplates',
+    from: process.env.MY_TOWN_API_DEFAULT_FROM_EMAIL,
+    testMode: false,
+    ssl: true
   },
 
   notify: firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(JSON.parse(process.env.MY_TOWN_API_FIREBASE_NOTIFICATION)),
     databaseURL: process.env.MY_TOWN_API_FIREBASE_NOTIFICATION_DB_URL,
   }, 'my-town-api'),
+
+
+  AWS: {
+    s3: new AWS.S3({ bucketName: 'my-town-api-attachments' }),
+    sns: new AWS.SNS({ region: "ap-southeast-1" }),
+  }
 
 };

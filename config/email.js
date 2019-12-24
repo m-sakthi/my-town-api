@@ -1,11 +1,12 @@
 module.exports.email = {
-  service: process.env.NODE_ENV === 'production' ? 'SES' : 'SendGrid',
+  service: 'SES',
   auth: {
-    // api_user: 'app51688772@heroku.com',
-    // api_key: 'frxghtdu6512'
-
-    user: 'apikey',
-    pass: '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'
+    user: 'iouigyufvjblk;uighj',
+    pass: 'popiouiyufthcvbjnlkm'
   },
+  templateDir: 'views/emailTemplates',
+  from: 'someuser@domain.com',
+  testMode: false,
+  ssl: true
   // testMode: true
 };

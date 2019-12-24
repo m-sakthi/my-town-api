@@ -26,6 +26,7 @@ module.exports.policies = {
 
   'v1/user/create': true,
   'v1/user/index': true,
+  'v1/location/index': true,
   'swagger': true,
 
 };

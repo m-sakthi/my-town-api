@@ -41,6 +41,7 @@ module.exports.custom = {
   },
 
   verifyEmailAddresses: true,
+  verifyMobileNumber: true,
   emailProofTokenValidity: 86000,
 
   // Model constant variables
@@ -48,6 +49,12 @@ module.exports.custom = {
     1: 'andriod',
     2: 'ios',
     3: 'web'
+  },
+
+  mobileNumberStatus: {
+    unconfirmed: 1,
+    changeRequested: 2,
+    confirmed: 3,
   }
 
 };

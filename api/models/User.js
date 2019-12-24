@@ -50,6 +50,20 @@ module.exports = {
       example: '+912342424234',
     },
 
+    mobileVerificationToken: {
+      type: 'number',
+      allowNull: true,
+      description: 'Verification Token for mobile number',
+    },
+
+    mobileVerificationStatus: {
+      type: 'number',
+      allowNull: true,
+      isIn: [1, 2, 3], // 1 -> unconfirmed, 2 -> changeRequested, 3 -> confirmed
+      defaultsTo: 1,
+      description: 'The confirmation status of the user\'s mobile number',
+    },
+
     gender: {
       type: 'string',
       isIn: ['male', 'female', 'other'],
@@ -97,7 +111,7 @@ module.exports = {
   },
 
   customToJSON: function () {
-    let user = _.omit(this, ['password', 'authenticationToken']);
+    let user = _.omit(this, ['password', 'authenticationToken', 'mobileVerificationToken', 'emailProofToken']);
     return {
       ...user,
       fullName: user.firstName + " " + user.lastName,
