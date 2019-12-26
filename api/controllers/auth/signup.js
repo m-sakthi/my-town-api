@@ -94,18 +94,18 @@ module.exports = {
       location: inputs.locationId,
     };
 
-    if (verifyEmailAddresses)
+    if (newEmailAddress && verifyEmailAddresses)
       newUser = {
         ...newUser,
-        emailProofToken: await sails.helpers.strings.random('url-friendly'),
+        emailProofToken: User.generateToken(),
         emailProofTokenExpiresAt: Date.now() + emailProofTokenValidity,
-        emailStatus: 'unconfirmed'
+        emailStatus: 1
       };
 
-    if (verifyMobileNumber) {
+    if (inputs.mobileNo && verifyMobileNumber) {
       newUser = {
         ...newUser,
-        mobileVerificationToken: parseInt(Array(6).fill(1).map(i => Math.round(Math.random()*9)).join('')),
+        mobileVerificationToken: User.generateToken(),
         mobileVerificationStatus: 1
       }
     }
@@ -117,7 +117,7 @@ module.exports = {
       .intercept({ name: 'UsageError' }, 'invalid')
       .fetch();
 
-    // if (verifyEmailAddresses) {
+    // if (newEmailAddress && verifyEmailAddresses) {
     //   sails.hooks.email.send(
     //     "verifyAccount",
     //     {
@@ -141,7 +141,7 @@ module.exports = {
     //   // });
     // }
 
-    if (verifyMobileNumber) {
+    if (inputs.mobileNo && verifyMobileNumber) {
       sails.config.AWS.sns.publish({
         Message: newUserRecord.mobileVerificationToken,
         PhoneNumber: newUserRecord.mobileNo,

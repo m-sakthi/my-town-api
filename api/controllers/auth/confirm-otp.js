@@ -6,15 +6,16 @@ module.exports = {
 
   inputs: {
 
-    id: {
-      type: 'number',
+    mobileNo: {
+      type: 'string',
       required: true,
-      description: 'User ID',
-      example: 1
+      description: 'Mobile number',
+      example: '+9198765432112'
     },
 
     mobileToken: {
       type: 'number',
+      required: true,
       description: 'Mobile verification token'
     }
 
@@ -38,18 +39,16 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
+    console.log("******** inputs.mobileNo,::", inputs.mobileNo, inputs.mobileToken)
 
-    if (!inputs.mobileToken) return exits.invalid({ error: 'Missing param mobileToken' });
-    let user = await User.findOne({
-      id: inputs.id,
-      mobileToken: inputs.mobileVerificationToken
+    const user = await User.findOne({
+      mobileNo: inputs.mobileNo,
+      mobileVerificationToken: inputs.mobileToken
     });
 
-    if (!user || user.mobileVerificationStatus === 3) {
-      return exits.invalid({ error: 'Invalid or Expired Token' });
-    }
+    if (!user) return exits.invalid({ error: 'Invalid mobile number or token' });
 
-    if (user.emailStatus === 'unconfirmed') {
+    if (user.mobileVerificationStatus === 1) {
       await User.update({ id: user.id }).set({
         mobileVerificationStatus: 3,
         mobileVerificationToken: null,

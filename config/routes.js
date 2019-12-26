@@ -39,6 +39,7 @@ module.exports.routes = {
   'POST /api/v1/auth/signup':                   { action: 'auth/signup' },
   'POST /api/v1/auth/confirm':                  { action: 'auth/confirm' },
   'POST /api/v1/auth/confirmOtp':               { action: 'auth/confirm-otp' },
+  'POST /api/v1/auth/resendOtp':                { action: 'auth/resend-otp' },
 
   // User routes
   'GET /api/v1/user':                           { action: 'v1/user/index' },
@@ -58,6 +59,7 @@ module.exports.routes = {
   'GET /api/v1/locationOutlet':                 { action: 'v1/locationOutlet/index' },
   'POST /api/v1/locationOutlet':                { action: 'v1/locationOutlet/create' },
   'DELETE /api/v1/locationOutlet/:id':          { action: 'v1/locationOutlet/delete' },
+  'PUT /api/v1/locationOutlet/:id':             { action: 'v1/locationOutlet/update' },
 
   // Category routes
   'GET /api/v1/category':                       { action: 'v1/category/index' },
@@ -143,9 +145,9 @@ module.exports.routes = {
   'PUT /api/v1/slotBooking/:id':                 { action: 'v1/slotBooking/update' },
 
   // Device Routes
-  'POST /api/v1/device':                    { action: 'v1/device/create' },
-  'GET /api/v1/device':                     { action: 'v1/device/index' },
-  'DELETE /api/v1/device/:id':              { action: 'v1/device/delete' },
-  'POST /api/v1/device/notify':             { action: 'v1/device/notify' },
+  'POST /api/v1/device':                         { action: 'v1/device/create' },
+  'GET /api/v1/device':                          { action: 'v1/device/index' },
+  'DELETE /api/v1/device/:id':                   { action: 'v1/device/delete' },
+  'POST /api/v1/device/notify':                  { action: 'v1/device/notify' },
 
 };

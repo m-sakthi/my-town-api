@@ -21,7 +21,7 @@ module.exports = function (req, res, next) {
     if (err) return res.json(401, { error: 'Invalid Token' });
     req.token = decodedToken.sub;
 
-    const user = await User.findOne(decodedToken.sub).omit(['password']);
+    const user = await User.findOne(decodedToken.sub).omit(['password', 'mobileVerificationToken', 'emailProofToken', 'emailProofTokenExpiresAt']);
     const roles = await sails.config.knex.select('name', 'resourceId', 'resourceType')
       .from('role')
       .join('user_role', function () {

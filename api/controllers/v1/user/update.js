@@ -73,22 +73,22 @@ module.exports = {
   fn: async function (inputs, exits) {
     let { currentUser } = this.req;
 
-    currentUser = { ...currentUser, ...inputs };
+    let payload = inputs;
 
     if (inputs.emailAddress)
-      currentUser = { ...currentUser, emailAddress: inputs.emailAddress.toLowerCase() };
+      payload = { ...payload, emailAddress: inputs.emailAddress.toLowerCase() };
 
     if (inputs.gender)
-      currentUser = { ...currentUser, gender: inputs.gender.toLowerCase() };
+      payload = { ...payload, gender: inputs.gender.toLowerCase() };
 
     if (inputs.locationId) {
       if (await Location.findOne(inputs.locationId))
-        currentUser = { ...currentUser, locationId };
+        payload = { ...payload, locationId };
       else return exits.notFound({ error: 'Location not found' });
     }
 
     let updatedRecord = await User.updateOne(currentUser.id)
-      .set(currentUser)
+      .set(payload)
       .intercept('E_UNIQUE', 'nameAlreadyInUse')
       .intercept({ name: 'UsageError' }, 'invalid');
 
