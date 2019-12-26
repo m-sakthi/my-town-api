@@ -10,6 +10,12 @@ module.exports = {
 
   attributes: {
 
+    status: {
+      type: 'number',
+      isIn: [1, 2, 3], // 1 -> open(dine and delivery), 2 -> unavailable, 3 -> closed, 4 -> only dining, 5 -> only delivery
+      defaultsTo: 1,
+    },
+
     outlet: {
       model: 'outlet',
     },

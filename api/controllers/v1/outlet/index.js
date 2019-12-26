@@ -25,11 +25,14 @@ module.exports = {
   fn: async function (inputs, exits) {
     let outletIds;
     const { knex } = sails.config;
-    if (inputs.locationId)
-      outletIds = await knex('locationoutlet')
-        .where({ location: inputs.locationId }).pluck('outlet');
 
-    let records = await Outlet.find(outletIds);
+    let records = await knex
+      .select('outlet.*', 'locationoutlet.status as outletStatus')
+      .from('outlet')
+      .join('locationoutlet', function () {
+        this.on('outlet.id', '=', 'locationoutlet.outlet')
+          .andOn('locationoutlet.location', '=', inputs.locationId)
+      })
 
     let currentTime = new Date();
     const offers = await Offer.find({
@@ -41,7 +44,7 @@ module.exports = {
 
     records = records.map(r => {
       outletOffers = offers.filter(o => parseInt(o.resourceId) === parseInt(r.id))
-      if (offers.length) r.offers = outletOffers;
+      r.offers = outletOffers;
       return r;
     });
 
