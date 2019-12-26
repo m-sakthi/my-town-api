@@ -39,7 +39,6 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
-    console.log("******** inputs.mobileNo,::", inputs.mobileNo, inputs.mobileToken)
 
     const user = await User.findOne({
       mobileNo: inputs.mobileNo,
