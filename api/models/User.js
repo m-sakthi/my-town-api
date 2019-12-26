@@ -72,7 +72,7 @@ module.exports = {
     },
 
     emailProofToken: {
-      type: 'string',
+      type: 'number',
       allowNull: true,
       description: 'A pseudorandom, probabilistically-unique token for use in our account verification emails.'
     },
@@ -86,10 +86,10 @@ module.exports = {
     },
 
     emailStatus: {
-      type: 'string',
+      type: 'number',
       allowNull: true,
-      isIn: ['unconfirmed', 'changeRequested', 'confirmed'],
-      defaultsTo: 'unconfirmed',
+      isIn: [1, 2, 3], // 1 -> unconfirmed, 2 -> changeRequested, 3 -> confirmed
+      defaultsTo: 1,
       description: 'The confirmation status of the user\'s email address.',
     },
 
@@ -117,6 +117,19 @@ module.exports = {
       fullName: user.firstName + " " + user.lastName,
       initials: pickInitials(user.firstName, user.lastName),
     };
+  },
+
+  generateToken: function () {
+    return parseInt(Array(6).fill(1).map(i => Math.round(Math.random()*9)).join(''))
+  },
+
+  sendMobileToken: function (token , mobileNo) {
+    sails.config.AWS.sns.publish({
+      Message: token,
+      PhoneNumber: mobileNo,
+    }).promise()
+      .then(data => console.log("SMS sent successfully " + data))
+      .catch(err => console.error(err, err.stack));
   },
 
 };

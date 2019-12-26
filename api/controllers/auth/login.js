@@ -7,9 +7,13 @@ module.exports = {
   inputs: {
 
     emailAddress: {
-      description: 'The email to try in this attempt, e.g. "irl@example.com".',
       type: 'string',
-      required: true
+      description: 'The email to try in this attempt, e.g. "irl@example.com".'
+    },
+
+    mobileNo: {
+      type: 'string',
+      description: 'The mobile number to try in this attempt'
     },
 
     password: {
@@ -21,6 +25,10 @@ module.exports = {
   },
 
   exits: {
+
+    invalid: {
+      responseType: 'badRequest'
+    },
 
     success: {
       description: 'The requesting user agent has been successfully logged in.',
@@ -35,20 +43,29 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
+    if (!inputs.emailAddress && !inputs.mobileNo)
+      return exits.invalid({ error: 'Either email or mobile number should be given.' });
 
-    var userRecord = await User.findOne({
-      emailAddress: inputs.emailAddress.toLowerCase(),
-    });
+    if (inputs.emailAddress && inputs.mobileNo)
+      return exits.invalid({ error: 'Both email and mobile number should not be given.' });
+
+    let criteria;
+    if (inputs.mobileNo) criteria = { mobileNo: inputs.mobileNo };
+    else if (inputs.emailAddress) criteria = { emailAddress: inputs.emailAddress.toLowerCase() };
+
+    const userRecord = await User.findOne(criteria);
 
     // If there was no matching user, respond thru the "badCombo" exit.
-    if(!userRecord) {
-      throw 'badCombo';
-    }
+    if (!userRecord) throw 'badCombo';
 
     // If the password doesn't match, then also exit thru "badCombo".
     await sails.helpers.passwords
       .checkPassword(inputs.password, userRecord.password)
       .intercept('incorrect', 'badCombo');
+
+    if ((inputs.emailAddress && userRecord.emailStatus !== 3) ||
+      (inputs.mobileNo && userRecord.mobileVerificationStatus !== 3))
+      return exits.invalid({ error: 'Account needs to be verified before loggin in.' })
 
     return exits.success({ api_key: JwtAuth.issueToken({ sub: userRecord.id }) });
 

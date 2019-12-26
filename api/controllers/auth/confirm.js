@@ -9,6 +9,13 @@ module.exports = {
 
   inputs: {
 
+    emailAddress: {
+      type: 'string',
+      isEmail: true,
+      required: true,
+      description: 'Email Address'
+    },
+
     token: {
       type: 'string',
       required: true,
@@ -27,33 +34,31 @@ module.exports = {
 
     alreadyConfirmed: {
       responseType: 'badRequest',
-    } 
+    }
 
   },
 
 
   fn: async function (inputs) {
 
-    if (!inputs.token) {
-      throw 'invalidOrExpiredToken';
-    }
+    var user = await User.findOne({
+      emailAddress: inputs.emailAddress,
+      emailProofToken: inputs.token
+    });
 
-    var user = await User.findOne({ emailProofToken: inputs.token });
+    if (!user || user.emailProofTokenExpiresAt <= Date.now())
+      return exits.invalid({ error: 'Invalid email or token' });
 
-    if (!user || user.emailProofTokenExpiresAt <= Date.now()) {
-      throw 'invalidOrExpiredToken';
-    }
-
-    if (user.emailStatus === 'unconfirmed') {
+    if (user.emailStatus === 1) {
       await User.update({ id: user.id }).set({
-        emailStatus: 'confirmed',
-        emailProofToken: '',
+        emailStatus: 3,
+        emailProofToken: null,
         emailProofTokenExpiresAt: 0
       });
-      
+
       return exits.success({ api_key: JwtAuth.issueToken({ sub: user.id }) });
     }
-  
+
     return exits.alreadyConfirmed({ error: 'Email already confirmed' });
 
   }
