@@ -27,7 +27,7 @@ module.exports = {
       description: 'Error While sending email or mobile token.'
     },
 
-    invalid: { esponseType: 'badRequest', },
+    invalid: { responseType: 'badRequest', },
 
     invalidOrExpiredToken: {
       responseType: 'badRequest',
@@ -76,18 +76,10 @@ module.exports = {
 
     } else if (inputs.type === 'mobile') {
       try {
-        await sails.config.AWS.sns.publish({
-          Message: 'OTP for My Town is ' + token,
-          PhoneNumber: user.mobileNo,
-        }).promise();
-
-        await User.updateOne(user.id).set({
-          mobileVerificationToken: token,
-          mobileVerificationStatus: 1
-        });
+        await sails.helpers.sendOtp.with({ id: user.id, mobileNo: user.mobileNo });
         return exits.success({ message: 'Succesfully sent.' });
       } catch (err) {
-        exits.errorSendingToken({ error: 'Error while sending mobile verification. ' + err });
+        return exits.errorSendingToken({ error: err });
       }
 
     }

@@ -7,7 +7,6 @@ module.exports = {
   inputs: {
 
     emailAddress: {
-      required: true,
       type: 'string',
       isEmail: true,
       description: 'The email address for the new account, e.g. m@example.com.',
@@ -40,8 +39,7 @@ module.exports = {
 
     mobileNo: {
       type: 'string',
-      required: true,
-      example: '+91 2342424234',
+      example: '+919342424234',
       description: 'Mobile number for OTP verification and other services,',
     },
 
@@ -77,6 +75,9 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
+    if (!inputs.emailAddress && !inputs.mobileNo)
+      return exits.invalid({ error: 'Either email or mobile number is mandatory.' });
+
     if (inputs.locationId && !await Location.findOne(inputs.locationId))
       return exits.notFound({ error: 'Location not found' });
 

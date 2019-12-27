@@ -64,8 +64,22 @@ module.exports = {
       .intercept('incorrect', 'badCombo');
 
     if ((inputs.emailAddress && userRecord.emailStatus !== 3) ||
-      (inputs.mobileNo && userRecord.mobileVerificationStatus !== 3))
-      return exits.invalid({ error: 'Account needs to be verified before loggin in.' })
+      (inputs.mobileNo && userRecord.mobileVerificationStatus !== 3)) {
+
+      try {
+
+        if (inputs.emailAddress) console.log('Cant send email now');
+        else await sails.helpers.sendOtp.with({ id: user.id, mobileNo: user.mobileNo });
+
+        return exits.success({
+          error: 'Account needs to be verified before loggin in.',
+          status: 'unverified'
+        });
+
+      } catch (err) {
+        return exits.errorSendingToken({ error: err });
+      }
+    }
 
     return exits.success({ api_key: JwtAuth.issueToken({ sub: userRecord.id }) });
 
