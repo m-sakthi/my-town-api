@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.table('user', function (t) {
     t.integer('emailProofToken').nullable();
-    t.timestamp('emailProofTokenExpiresAt').defaultTo(new Date(+new Date() + 86000));
+    t.timestamp('emailProofTokenExpiresAt').defaultTo();
     t.integer('emailStatus').defaultsTo(1);
   })
 };
