@@ -68,6 +68,10 @@ module.exports = {
       responseType: 'badRequest'
     },
 
+    notFound: {
+      responseType: 'notFound',
+    },
+
   },
 
   fn: async function (inputs, exits) {
