@@ -73,6 +73,10 @@ module.exports = {
       description: 'The provided email address or mobile is already in use.',
     },
 
+    notFound: {
+      responseType: 'notFound',
+    },
+
   },
 
   fn: async function (inputs, exits) {

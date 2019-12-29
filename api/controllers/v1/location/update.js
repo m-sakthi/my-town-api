@@ -34,6 +34,10 @@ module.exports = {
       description: 'The provided name is already in use.',
     },
 
+    notFound: {
+      responseType: 'notFound',
+    },
+
   },
 
 

@@ -21,6 +21,10 @@ module.exports = {
       responseType: 'forbidden',
     },
 
+    notFound: {
+      responseType: 'notFound',
+    },
+
   },
 
   fn: async function (inputs, exits) {

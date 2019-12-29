@@ -12,7 +12,11 @@ module.exports = {
     },
   },
 
-  exits: {},
+  exits: {
+    notFound: {
+      responseType: 'notFound',
+    },
+  },
 
   fn: async function (inputs, exits) {
     let outlet = await Outlet.findOne(inputs.id);

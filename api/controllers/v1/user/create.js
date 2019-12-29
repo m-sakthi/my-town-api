@@ -71,6 +71,10 @@ module.exports = {
       description: 'The provided email address is already in use.',
       responseType: 'badRequest'
     },
+
+    notFound: {
+      responseType: 'notFound',
+    },
   },
 
   fn: async function (inputs, exits) {

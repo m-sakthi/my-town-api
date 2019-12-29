@@ -42,6 +42,10 @@ module.exports = {
       description: 'The provided name is already in use.',
     },
 
+    notFound: {
+      responseType: 'notFound',
+    },
+
   },
 
   fn: async function (inputs, exits) {

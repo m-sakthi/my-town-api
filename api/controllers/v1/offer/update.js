@@ -66,6 +66,10 @@ module.exports = {
     invalid: {
       responseType: 'badRequest',
     },
+
+    notFound: {
+      responseType: 'notFound',
+    },
   },
 
 

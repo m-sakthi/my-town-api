@@ -23,6 +23,10 @@ module.exports = {
       description: 'The provided role name is already available.',
     },
 
+    notFound: {
+      responseType: 'notFound',
+    },
+
   },
 
   fn: async function (inputs) {
