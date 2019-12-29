@@ -66,7 +66,7 @@ module.exports = {
           else {
             User.updateOne(user.id).set({
               emailProofToken: token,
-              emailProofTokenExpiresAt: Date.now() + sails.config.custom.emailProofTokenValidity,
+              emailProofTokenExpiresAt: new Date(Date.now() + emailProofTokenValidity),
               emailStatus: 1
             });
             return exits.success({ message: 'Succesfully sent.' });

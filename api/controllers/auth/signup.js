@@ -69,6 +69,7 @@ module.exports = {
 
     emailAlreadyInUse: {
       statusCode: 400,
+      responseType: 'badRequest',
       description: 'The provided email address or mobile is already in use.',
     },
 
@@ -81,7 +82,7 @@ module.exports = {
     if (inputs.locationId && !await Location.findOne(inputs.locationId))
       return exits.notFound({ error: 'Location not found' });
 
-    let newEmailAddress = inputs.emailAddress.toLowerCase();
+    let newEmailAddress = inputs.emailAddress && inputs.emailAddress.toLowerCase();
 
     const { verifyEmailAddresses, verifyMobileNumber, emailProofTokenValidity } = sails.config.custom;
 
@@ -99,7 +100,7 @@ module.exports = {
       newUser = {
         ...newUser,
         emailProofToken: User.generateToken(),
-        emailProofTokenExpiresAt: Date.now() + emailProofTokenValidity,
+        emailProofTokenExpiresAt: new Date(Date.now() + emailProofTokenValidity),
         emailStatus: 1
       };
 
@@ -143,12 +144,15 @@ module.exports = {
     // }
 
     if (inputs.mobileNo && verifyMobileNumber) {
-      sails.config.AWS.sns.publish({
-        Message: newUserRecord.mobileVerificationToken,
-        PhoneNumber: newUserRecord.mobileNo,
-      }).promise()
-        .then(data => console.log("SMS sent successfully " + data))
-        .catch(err => console.error(err, err.stack));
+      try {
+        await sails.helpers.sendOtp.with({
+          id: newUserRecord.id,
+          mobileNo: newUserRecord.mobileNo
+        });
+        return exits.success({ message: 'Succesfully sent.' });
+      } catch (err) {
+        return exits.errorSendingToken({ error: err });
+      }
     }
 
     return exits.success(newUserRecord);
