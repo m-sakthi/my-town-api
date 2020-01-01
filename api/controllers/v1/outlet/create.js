@@ -40,7 +40,7 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     var newRecord = await Outlet.create({
-      name: inputs.name.toLowerCase(),
+      name: inputs.name,
       overview: inputs.overview,
       status: 'active',
     })

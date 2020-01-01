@@ -48,7 +48,7 @@ module.exports = {
       ) return exits.notFound({ error: 'Attachement not found.' });
 
     let newCategoryRecord = await Category.create({
-      name: inputs.name.toLowerCase(),
+      name: inputs.name,
       overview: inputs.overview,
       attachment: inputs.attachmentId,
     })

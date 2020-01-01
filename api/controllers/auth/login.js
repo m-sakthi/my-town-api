@@ -30,10 +30,6 @@ module.exports = {
       responseType: 'badRequest'
     },
 
-    success: {
-      description: 'The requesting user agent has been successfully logged in.',
-    },
-
     badCombo: {
       description: `The provided email and password combination does not
       match any user in the database.`,
@@ -53,18 +49,18 @@ module.exports = {
     if (inputs.mobileNo) criteria = { mobileNo: inputs.mobileNo };
     else if (inputs.emailAddress) criteria = { emailAddress: inputs.emailAddress.toLowerCase() };
 
-    const userRecord = await User.findOne(criteria);
+    const user = await User.findOne(criteria);
 
     // If there was no matching user, respond thru the "badCombo" exit.
-    if (!userRecord) throw 'badCombo';
+    if (!user) throw 'badCombo';
 
     // If the password doesn't match, then also exit thru "badCombo".
     await sails.helpers.passwords
-      .checkPassword(inputs.password, userRecord.password)
+      .checkPassword(inputs.password, user.password)
       .intercept('incorrect', 'badCombo');
 
-    if ((inputs.emailAddress && userRecord.emailStatus !== 3) ||
-      (inputs.mobileNo && userRecord.mobileVerificationStatus !== 3)) {
+    if ((inputs.emailAddress && user.emailStatus !== 3) ||
+      (inputs.mobileNo && user.mobileVerificationStatus !== 3)) {
 
       try {
 
@@ -77,11 +73,14 @@ module.exports = {
         });
 
       } catch (err) {
-        return exits.errorSendingToken({ error: err });
+        return exits.invalid({ error: err });
       }
     }
 
-    return exits.success({ api_key: JwtAuth.issueToken({ sub: userRecord.id }) });
+    return exits.success({
+      api_key: JwtAuth.issueToken({ sub: user.id }),
+      id: user.id
+    });
 
   }
 

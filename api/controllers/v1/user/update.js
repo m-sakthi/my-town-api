@@ -87,7 +87,7 @@ module.exports = {
 
     if (inputs.locationId) {
       if (await Location.findOne(inputs.locationId))
-        payload = { ...payload, locationId };
+        payload = { ...payload, location: inputs.locationId };
       else return exits.notFound({ error: 'Location not found' });
     }
 

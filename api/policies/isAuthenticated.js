@@ -22,6 +22,9 @@ module.exports = function (req, res, next) {
     req.token = decodedToken.sub;
 
     const user = await User.findOne(decodedToken.sub).omit(['password', 'mobileVerificationToken', 'emailProofToken', 'emailProofTokenExpiresAt']);
+    if (!user)
+      return res.status(401).json({ error: 'Invalid authorization header.' });
+
     const roles = await sails.config.knex.select('name', 'resourceId', 'resourceType')
       .from('role')
       .join('user_role', function () {
