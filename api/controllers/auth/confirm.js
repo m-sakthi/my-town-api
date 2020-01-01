@@ -56,7 +56,10 @@ module.exports = {
         emailProofTokenExpiresAt: 0
       });
 
-      return exits.success({ api_key: JwtAuth.issueToken({ sub: user.id }) });
+      return exits.success({
+        api_key: JwtAuth.issueToken({ sub: user.id }),
+        id: user.id
+      });
     }
 
     return exits.alreadyConfirmed({ error: 'Email already confirmed' });

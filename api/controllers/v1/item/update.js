@@ -75,7 +75,7 @@ module.exports = {
 
     var payload = inputs;
     if (inputs.name !== undefined) payload = Object.assign(payload, {
-      name: inputs.name.toLowerCase()
+      name: inputs.name
     });
 
 

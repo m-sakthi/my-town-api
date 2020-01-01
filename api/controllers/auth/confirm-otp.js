@@ -53,7 +53,10 @@ module.exports = {
         mobileVerificationToken: null,
       });
 
-      return exits.success({ api_key: JwtAuth.issueToken({ sub: user.id }) });
+      return exits.success({
+        api_key: JwtAuth.issueToken({ sub: user.id }),
+        id: user.id
+      });
     }
 
     return exits.alreadyConfirmed({ error: 'Mobile number already confirmed' });

@@ -96,7 +96,7 @@ module.exports = {
       firstName: inputs.firstName,
       lastName: inputs.lastName,
       mobileNo: inputs.mobileNo,
-      gender: inputs.gender.toLowerCase(),
+      gender: inputs.gender && inputs.gender.toLowerCase(),
       location: inputs.locationId,
     };
 
@@ -119,8 +119,7 @@ module.exports = {
     // Build up data for the new user record and save it to the database.
     // (Also use `fetch` to retrieve the new ID so that we can use it below.)
     let newUserRecord = await User.create(newUser)
-      .intercept('E_UNIQUE', 'emailAlreadyInUse')
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => exits.invalid(err))
       .fetch();
 
     // if (newEmailAddress && verifyEmailAddresses) {
@@ -159,7 +158,8 @@ module.exports = {
       }
     }
 
-    return exits.success(newUserRecord);
+    if (newUserRecord)
+      return exits.success(newUserRecord);
 
   }
 

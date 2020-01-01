@@ -59,16 +59,14 @@ module.exports = {
     }
 
     let payload = {};
-    if (inputs.name != undefined) {
-      let newName = inputs.name.toLowerCase();
-      payload = Object.assign(payload, { name: newName });
-    }
+    if (inputs.name)
+      payload = Object.assign(payload, { name: inputs.name });
 
-    if (inputs.overview != undefined) {
+    if (inputs.overview) {
       payload = Object.assign(payload, { overview: inputs.overview });
     }
 
-    if (inputs.status != undefined) {
+    if (inputs.status) {
       payload = Object.assign(payload, { status: inputs.status });
     }
 

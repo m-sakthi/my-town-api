@@ -78,7 +78,7 @@ module.exports = {
     }
 
     let newItemRecord = await Item.create({
-      name: inputs.name.toLowerCase(),
+      name: inputs.name,
       overview: inputs.overview,
       price: inputs.price,
       category: inputs.categoryId
