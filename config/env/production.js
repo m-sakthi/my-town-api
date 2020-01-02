@@ -28,6 +28,16 @@ AWS.config.update({
   region: 'ap-south-1',
 });
 
+const winston = require('winston');
+const customLogger = new winston.createLogger();
+
+// A file based transport logging only errors formatted as json.
+customLogger.add(new winston.transports.File({
+  level: 'info',
+  filename: 'application.log',
+  json: true,
+  colorize: true
+}));
 
 module.exports = {
 
@@ -291,10 +301,19 @@ module.exports = {
   *                                                                         *
   * (https://sailsjs.com/config/log)                                        *
   *                                                                         *
+  * The order of precedence for log levels from lowest to highest is:       *
+  * silly, verbose, info, debug, warn, error                                *
+  *                                                                         *
   ***************************************************************************/
   log: {
-    level: 'debug'
+    // Pass in our custom logger, and pass all log levels through.
+    custom: customLogger,
+
+    // Disable captain's log so it doesn't prefix or stringify our meta data.
+    inspect: false,
   },
+
+
 
 
 
