@@ -423,7 +423,9 @@ module.exports = {
       unconfirmed: 1,
       changeRequested: 2,
       confirmed: 3,
-    }
+    },
+
+    fromMobileNumber: process.env.MY_TOWN_API_FROM_MOBILE_NO,
 
     // mailgunDomain: 'mg.example.com',
     // mailgunSecret: 'key-prod_fake_bd32301385130a0bafe030c',
@@ -481,6 +483,8 @@ module.exports = {
   AWS: {
     s3: new AWS.S3({ bucketName: 'my-town-api-attachments' }),
     sns: new AWS.SNS({ region: "ap-southeast-1" }),
-  }
+  },
+
+  twilioClient: require('twilio')(process.env.MY_TOWN_API_TWILIO_SID, process.env.MY_TOWN_API_TWILIO_TOKEN),
 
 };

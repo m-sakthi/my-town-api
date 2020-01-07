@@ -23,6 +23,7 @@
     "sails-hook-sockets": "^2.0.0",
     "sails-postgresql": "^1.0.2",
     "skipper-s3": "^0.6.0",
+    "twilio": "^3.39.1",
     "winston": "^3.2.1"
   },
   "devDependencies": {
