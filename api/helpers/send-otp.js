@@ -42,7 +42,7 @@ module.exports = {
       // }).promise();
 
       await sails.config.twilioClient.messages.create({
-        from: sails.config.custom.fromMobileNumbers,
+        from: sails.config.custom.fromMobileNumber,
         to: inputs.mobileNo,
         body: 'OTP for My Town is ' + token
       });
