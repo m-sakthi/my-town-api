@@ -119,7 +119,7 @@ module.exports = {
     // Build up data for the new user record and save it to the database.
     // (Also use `fetch` to retrieve the new ID so that we can use it below.)
     let newUserRecord = await User.create(newUser)
-      .intercept(err => exits.invalid(err))
+      .intercept(err => exits.invalid({ error: err }))
       .fetch();
 
     // if (newEmailAddress && verifyEmailAddresses) {

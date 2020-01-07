@@ -41,6 +41,25 @@ module.exports = {
     localDiskUploadConfig: {
       maxBytes: 10000000,
     },
+
+    verifyEmailAddresses: true,
+    verifyMobileNumber: true,
+    emailProofTokenValidity: 86000,
+
+    // Model constant variables
+    device: {
+      1: 'andriod',
+      2: 'ios',
+      3: 'web'
+    },
+
+    mobileNumberStatus: {
+      unconfirmed: 1,
+      changeRequested: 2,
+      confirmed: 3,
+    },
+
+    fromMobileNumber: '+987654323456789',
   },
 
   knex: require('knex')({
@@ -72,5 +91,7 @@ module.exports = {
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://somedb-12345.firebaseio.com/"
   }),
+
+  twilioClient: require('twilio')('oiuytrdfghjiuytrewadfghjk', '098765redfglmnbvcst'),
 
 };

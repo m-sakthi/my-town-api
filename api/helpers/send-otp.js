@@ -36,10 +36,16 @@ module.exports = {
 
     const token = User.generateToken();
     try {
-      await sails.config.AWS.sns.publish({
-        Message: 'OTP for My Town is ' + token,
-        PhoneNumber: inputs.mobileNo,
-      }).promise();
+      // await sails.config.AWS.sns.publish({
+      //   Message: 'OTP for My Town is ' + token,
+      //   PhoneNumber: inputs.mobileNo,
+      // }).promise();
+
+      await sails.config.twilioClient.messages.create({
+        from: sails.config.custom.fromMobileNumbers,
+        to: inputs.mobileNo,
+        body: 'OTP for My Town is ' + token
+      });
 
       await User.updateOne(inputs.id).set({
         mobileVerificationToken: token,
