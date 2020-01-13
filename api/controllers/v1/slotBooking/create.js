@@ -33,7 +33,7 @@ module.exports = {
   exits: {
 
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -56,7 +56,7 @@ module.exports = {
       slotTime: inputs.slotTimeId,
       user: inputs.userId
     })
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(newRecord);

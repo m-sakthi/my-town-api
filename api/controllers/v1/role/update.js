@@ -18,8 +18,8 @@ module.exports = {
 
   exits: {
 
-    nameAlreadyInUse: {
-      statusCode: 400,
+    invalid: {
+      responseType: 'errorHandler',
       description: 'The provided role name is already available.',
     },
 
@@ -37,12 +37,7 @@ module.exports = {
 
     var updatedRole = await Role.updateOne({ id: inputs.id })
       .set({ name: inputs.name })
-      .intercept('E_UNIQUE', err => err)
-      .intercept('E_MISSING_OR_INVALID_PARAMS', () =>
-        exits.invalid({
-          message: 'invalid request'
-        })
-      );
+      .intercept(err => { exits.invalid(err) });
 
     return exits.success(updatedRole);
 

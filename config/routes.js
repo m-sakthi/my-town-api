@@ -106,6 +106,7 @@ module.exports.routes = {
   // Attachment Routes
   'POST /api/v1/attachment':                     { action: 'v1/attachment/create' },
   'GET /api/v1/attachment':                      { action: 'v1/attachment/index' },
+  'PUT /api/v1/attachment/:id':                  { action: 'v1/attachment/update' },
   'DELETE /api/v1/attachment/:id':               { action: 'v1/attachment/delete' },
 
   // Cart Routes

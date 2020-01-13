@@ -15,7 +15,7 @@ module.exports = {
       unique: true,
       description: 'Full representation of the Caregory Name',
       maxLength: 120,
-      example: 'Provison'
+      example: 'Provision'
     },
 
     overview: {
@@ -24,6 +24,13 @@ module.exports = {
       maxLength: 255,
       description: 'Some overview about that category',
       example: 'All Provisonanl items are available',
+    },
+
+    nature: {
+      type: 'number',
+      defaultsTo: 1,
+      isIn: [1, 2], // 1 -> primary, 2 -> secondary
+      description: 'Nature or Type of image',
     },
 
     outlets: {

@@ -24,6 +24,12 @@ module.exports = {
       example: 'All Provosional items will be available',
     },
 
+    nature: {
+      type: 'number',
+      defaultsTo: 1,
+      isIn: [1, 2], // 1 -> primary, 2 -> secondary
+    },
+
     attachmentId: {
       type: 'number',
       description: 'Attachment ID',
@@ -53,11 +59,14 @@ module.exports = {
     if (!category) return exits.notFound({ error: 'Category not found.' });
 
     let payload = {};
-    if (inputs.name != undefined)
+    if (inputs.name)
       payload = Object.assign(payload, { name: inputs.name });
 
-    if (inputs.overview != undefined)
+    if (inputs.overview)
       payload = Object.assign(payload, { overview: inputs.overview });
+    
+    if(inputs.nature)
+      payload = Object.assign(payload, { nature: inputs.nature })
 
     if (inputs.attachmentId) {
       if (!await Attachment.findOne(inputs.attachmentId))
@@ -68,8 +77,7 @@ module.exports = {
 
     let updatedRecord = await Category.updateOne(inputs.id)
       .set(payload)
-      .intercept('E_UNIQUE', 'nameAlreadyInUse')
-      .intercept({ name: 'UsageError' }, 'invalid');
+      .intercept(err => { exits.invalid(err) });
 
     return exits.success(updatedRecord);
 

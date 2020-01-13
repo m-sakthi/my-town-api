@@ -28,7 +28,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -55,7 +55,7 @@ module.exports = {
       address: inputs.addressId,
       user: this.req.currentUser.id,
       status: 'active'
-    }).intercept({ name: 'UsageError' }, 'invalid').fetch();
+    }).intercept(err => { exits.invalid(err) }).fetch();
 
     const values = items.map(i => ({
       order: order.id,

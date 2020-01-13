@@ -61,15 +61,10 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
       description: 'The provided fullName, password and/or email address are invalid.',
       extendedDescription: 'If this request was sent from a graphical user interface, the request ' +
         'parameters should have been validated/coerced _before_ they were sent.'
-    },
-
-    emailAlreadyInUse: {
-      description: 'The provided email address is already in use.',
-      responseType: 'badRequest'
     },
 
     notFound: {
@@ -90,8 +85,7 @@ module.exports = {
       gender: inputs.gender && inputs.gender.toLowerCase(),
       location: inputs.locationId,
     })
-      .intercept('E_UNIQUE', (e) => exits.emailAlreadyInUse({ error: e }))
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(newUserRecord);

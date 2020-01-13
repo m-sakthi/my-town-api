@@ -64,7 +64,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -104,7 +104,7 @@ module.exports = {
 
     let updatedRecord = await Offer.updateOne(inputs.id)
       .set(payload)
-      .intercept({ name: 'UsageError' }, 'invalid');
+      .intercept(err => { exits.invalid(err) });
 
     return exits.success(updatedRecord);
 

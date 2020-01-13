@@ -43,12 +43,6 @@ module.exports = {
       through: 'locationoutlet',
     },
 
-    addresses: {
-      collection: 'address',
-      via: 'outlet',
-      through: 'outletaddress',
-    },
-
     items: {
       collection: 'item',
       via: 'outlet',

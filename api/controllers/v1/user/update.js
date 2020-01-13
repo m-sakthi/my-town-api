@@ -57,7 +57,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
       description: 'The provided fullName, password and/or email address are invalid.',
       extendedDescription: 'If this request was sent from a graphical user interface, the request ' +
         'parameters should have been validated/coerced _before_ they were sent.'
@@ -93,8 +93,7 @@ module.exports = {
 
     let updatedRecord = await User.updateOne(currentUser.id)
       .set(payload)
-      .intercept('E_UNIQUE', 'nameAlreadyInUse')
-      .intercept({ name: 'UsageError' }, 'invalid');
+      .intercept(err => { exits.invalid(err) });
 
     return exits.success(updatedRecord);
   }

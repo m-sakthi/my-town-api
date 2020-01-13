@@ -68,14 +68,14 @@ module.exports = {
 
     parentType: {
       type: 'string',
-      isIn: ['user', 'outlet'],
-      description: 'Parent Type can be user/outlet',
+      isIn: ['user', 'outlet', 'locationoutlet'],
+      description: 'Parent Type can be user/outlet/locationoutlet',
       example: 'user'
     },
 
     parentId: {
       type: 'number',
-      description: 'User/Outlet ID',
+      description: 'User/Outlet/LocationOutlet ID',
       example: 1
     }
 
@@ -83,7 +83,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     insufficientPrivilege: {
@@ -107,16 +107,13 @@ module.exports = {
 
     let updatedRecord = await Address.updateOne(inputs.id)
       .set(inputs)
-      .intercept({ name: 'UsageError' }, 'invalid');
+      .intercept(err => { exits.invalid(err) });
 
     if (parentType && parentId) {
       let child = await sails.config.knex(parentType)
         .where({ id: parentId }).first();
   
       if (!child) exits.notFound({ error: parentType + ' not found.' });
-  
-      await sails.config.knex(parentType + 'address')
-        .insert({ [parentType]: parentId, address: newRecord.id });
 
       updatedRecord = { ...updatedRecord, [inputs.parentType]: child }
     }

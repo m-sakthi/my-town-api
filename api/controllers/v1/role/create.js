@@ -18,8 +18,8 @@ module.exports = {
 
   exits: {
 
-    nameAlreadyInUse: {
-      statusCode: 400,
+    invalid: {
+      responseType: 'errorHandler',
       description: 'The provided role name is already available.',
     },
 
@@ -30,9 +30,7 @@ module.exports = {
     let newRecord = await Role.create({
       name: inputs.name.toLowerCase(),
     })
-      .intercept('E_UNIQUE', (e) => exits.nameAlreadyInUse({
-        error: { message: e.message, attrNames: e.attrNames }
-      }))
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(newRecord);

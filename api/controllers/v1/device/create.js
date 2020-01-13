@@ -23,7 +23,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
   },
@@ -32,12 +32,7 @@ module.exports = {
     let record = await Device.create({
       ...inputs,
       user: this.req.currentUser.id
-    }).intercept(err => {
-      if (err.code === "E_UNIQUE")
-        exits.success({ message: 'Device already registered!' })
-
-      exits.invalid(err);
-    })
+    }).intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(record);

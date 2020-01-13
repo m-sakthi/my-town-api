@@ -97,12 +97,6 @@ module.exports = {
       model: 'location'
     },
 
-    addresses: {
-      collection: 'address',
-      via: 'user',
-      through: 'useraddress',
-    },
-
     attachments: {
       collection: 'attachment',
       via: 'creator',

@@ -6,6 +6,19 @@ module.exports = {
 
   inputs: {
 
+    parentType: {
+      type: 'string',
+      isIn: ['user', 'outlet', 'locationoutlet'],
+      description: 'Parent Type can be user/outlet/locationoutlet',
+      example: 'user'
+    },
+
+    parentId: {
+      type: 'number',
+      description: 'User/Outlet/LocationOutlet ID',
+      example: 1
+    }
+
   },
 
   exits: {
@@ -15,7 +28,14 @@ module.exports = {
   },
 
   fn: async function (inputs, exits) {
-    var records = await Address.find();
+    let criteria = {};
+    if (inputs.parentType)
+      criteria = { parentType: inputs.parentType };
+
+    if (inputs.parentId)
+      criteria = { ...criteria, parentId: inputs.parentId };
+
+    var records = await Address.find(criteria);
     return exits.success(records);
   }
 

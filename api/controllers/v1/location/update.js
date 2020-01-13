@@ -26,12 +26,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
-    },
-
-    nameAlreadyInUse: {
-      statusCode: 400,
-      description: 'The provided name is already in use.',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -48,8 +43,7 @@ module.exports = {
     if (inputs.name)
       location = await Location.updateOne(inputs.id)
         .set({ name: inputs.name.toLowerCase() })
-        .intercept('E_UNIQUE', 'nameAlreadyInUse')
-        .intercept({ name: 'UsageError' }, 'invalid')
+        .intercept(err => { exits.invalid(err) })
 
     return exits.success(location);
 

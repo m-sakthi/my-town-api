@@ -15,7 +15,8 @@ module.exports = {
   fn: async function (inputs, exits) {
 
     const { currentUser } = this.req;
-    return exits.success(currentUser);
+    const location = await Location.findOne({ id: currentUser.location });
+    return exits.success({ ...currentUser, location });
 
   }
 

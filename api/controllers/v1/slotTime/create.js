@@ -32,7 +32,7 @@ module.exports = {
   exits: {
 
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -48,7 +48,7 @@ module.exports = {
     if (!slot) return exits.notFound({ error: 'Slot not found' });
 
     let newRecord = await SlotTime.create({ ...inputs, slot: inputs.slotId })
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(newRecord);
