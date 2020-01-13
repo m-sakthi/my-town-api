@@ -27,7 +27,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -42,7 +42,7 @@ module.exports = {
 
     order = await Order.updateOne(inputs.id)
       .set(inputs)
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
 
     return exits.success(order);
   }

@@ -22,7 +22,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -60,7 +60,7 @@ module.exports = {
       outlet: inputs.outlet,
       category: inputs.category
     })
-    .intercept('E_UNIQUE', 'nameAlreadyInUse')
+    .intercept(err => { exits.invalid(err) })
     .fetch();
 
     return exits.success(newItemRecord);

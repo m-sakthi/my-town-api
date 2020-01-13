@@ -37,7 +37,7 @@ module.exports = {
   exits: {
 
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -61,7 +61,7 @@ module.exports = {
     else return exits.notFound({ error: 'User not found' });
 
     let updatedRecord = await SlotBooking.create(payload)
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(updatedRecord);

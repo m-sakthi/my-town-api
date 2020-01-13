@@ -66,15 +66,15 @@ module.exports = {
     parentType: {
       type: 'string',
       required: true,
-      isIn: ['user', 'outlet'],
-      description: 'Parent Type can be user/outlet',
+      isIn: ['user', 'outlet', 'locationoutlet'],
+      description: 'Parent Type can be user/outlet/locationoutlet',
       example: 'user'
     },
 
     parentId: {
       type: 'number',
       required: true,
-      description: 'User/Outlet ID',
+      description: 'User/Outlet/LocationOutlet ID',
       example: 1
     }
 
@@ -82,7 +82,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -99,11 +99,8 @@ module.exports = {
     if (!child) exits.notFound({ error: parentType + ' not found.' });
 
     let newRecord = await Address.create({...inputs, user: this.req.currentUser.id})
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
-
-    await sails.config.knex(parentType + 'address')
-      .insert({ [parentType]: parentId, address: newRecord.id });
 
     return exits.success({ ...newRecord, [parentType]: child });
 

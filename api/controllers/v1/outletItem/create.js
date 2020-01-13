@@ -39,7 +39,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -81,7 +81,7 @@ module.exports = {
       price: inputs.price,
       overview: inputs.overview,
     })
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(newOutletItemRecord);

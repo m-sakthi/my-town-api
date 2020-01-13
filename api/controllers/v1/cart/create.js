@@ -22,7 +22,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -51,7 +51,7 @@ module.exports = {
     if (record) {
       await Cart.updateOne(record.id)
         .set({ quantity: record.quantity + 1 })
-        .intercept({ name: 'UsageError' }, 'invalid');
+        .intercept(err => { exits.invalid(err) });
     } else {
       record = await Cart.create({
         item: inputs.itemId,

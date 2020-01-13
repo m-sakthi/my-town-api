@@ -24,9 +24,9 @@ module.exports = {
 
   exits: {
 
-    combinationAlreadyEists: {
+    invalid: {
       description: 'The provided user and role combination already exists.',
-      responseType: 'badRequest'
+      responseType: 'errorHandler'
     },
 
     notFound: {
@@ -50,7 +50,7 @@ module.exports = {
         user: inputs.userId,
         role: inputs.roleId
       })
-        .intercept('UsageError', 'combinationAlreadyEists')
+        .intercept(err => { exits.invalid(err) })
         .fetch();
 
       return exits.success(newRecord);

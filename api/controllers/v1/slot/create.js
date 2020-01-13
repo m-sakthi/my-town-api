@@ -34,7 +34,7 @@ module.exports = {
   exits: {
 
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     combintaionAlreadyExists: {
@@ -55,10 +55,7 @@ module.exports = {
     if (!outlet) return exits.notFound({ error: 'Outlet not found' });
 
     let newRecord = await Slot.create({ ...inputs, outlet: inputs.outletId })
-      .intercept('E_UNIQUE', (e) => exits.combintaionAlreadyExists({
-        error: e
-      }))
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(newRecord);

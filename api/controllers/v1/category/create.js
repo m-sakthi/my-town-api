@@ -8,6 +8,7 @@ module.exports = {
     name: {
       type: 'string',
       required: true,
+      unique: true,
       description: 'Full representation of the Category Name',
       maxLength: 120,
       example: 'Provosion'
@@ -20,6 +21,12 @@ module.exports = {
       example: 'All Provosional items will be available',
     },
 
+    nature: {
+      type: 'number',
+      defaultsTo: 1,
+      isIn: [1, 2], // 1 -> primary, 2 -> secondary
+    },
+
     attachmentId: {
       type: 'number',
       description: 'Attachment ID',
@@ -29,12 +36,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
-    },
-
-    nameAlreadyInUse: {
-      statusCode: 400,
-      description: 'The provided name is already in use.',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -51,9 +53,9 @@ module.exports = {
       name: inputs.name,
       overview: inputs.overview,
       attachment: inputs.attachmentId,
+      nature: inputs.nature,
     })
-      .intercept('E_UNIQUE', 'nameAlreadyInUse')
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(newCategoryRecord);

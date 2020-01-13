@@ -54,12 +54,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
-    },
-
-    nameAlreadyInUse: {
-      statusCode: 400,
-      description: 'The provided name is already in use.',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -95,8 +90,7 @@ module.exports = {
 
     var updatedRecord = await Item.updateOne(inputs.id)
       .set(payload)
-      .intercept('E_UNIQUE', 'nameAlreadyInUse')
-      .intercept({ name: 'UsageError' }, 'invalid');
+      .intercept(err => { exits.invalid(err) });
 
     return exits.success(updatedRecord);
 

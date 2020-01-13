@@ -29,7 +29,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -51,7 +51,7 @@ module.exports = {
 
     newRecord = await LocationOutlet.updateOne(record.id)
       .set({ status: inputs.status })
-      .intercept({ name: 'UsageError' }, 'invalid');
+      .intercept(err => { exits.invalid(err) });
 
     return exits.success(newRecord);
 

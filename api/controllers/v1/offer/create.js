@@ -61,7 +61,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
   },
 
@@ -76,7 +76,7 @@ module.exports = {
       resourceType: inputs.resourceType,
       resourceId: inputs.resourceId
     })
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(newRecord);

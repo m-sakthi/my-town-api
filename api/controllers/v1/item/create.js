@@ -55,12 +55,7 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
-    },
-
-    nameAlreadyInUse: {
-      statusCode: 400,
-      description: 'The provided name is already in use.',
+      responseType: 'errorHandler',
     },
 
     notFound: {
@@ -83,8 +78,7 @@ module.exports = {
       price: inputs.price,
       category: inputs.categoryId
     })
-      .intercept('E_UNIQUE', 'nameAlreadyInUse')
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(newItemRecord);

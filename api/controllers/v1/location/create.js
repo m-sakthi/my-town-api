@@ -20,14 +20,8 @@ module.exports = {
 
   exits: {
     invalid: {
-      responseType: 'badRequest',
+      responseType: 'errorHandler',
     },
-
-    nameAlreadyInUse: {
-      statusCode: 400,
-      description: 'The provided name is already in use.',
-    },
-
   },
 
 
@@ -35,8 +29,7 @@ module.exports = {
     var newRecord = await Location.create({
       name: inputs.name.toLowerCase(),
     })
-      .intercept('E_UNIQUE', 'nameAlreadyInUse')
-      .intercept({ name: 'UsageError' }, 'invalid')
+      .intercept(err => { exits.invalid(err) })
       .fetch();
 
     return exits.success(newRecord);

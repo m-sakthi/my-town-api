@@ -67,20 +67,23 @@ module.exports = {
       example: '15.887376'
     },
 
+    parentType: {
+      type: 'string',
+      required: true,
+      isIn: ['user', 'outlet', 'locationoutlet'],
+      description: 'Parent Type can be user/outlet/locationoutlet',
+      example: 'user'
+    },
+
+    parentId: {
+      type: 'number',
+      required: true,
+      description: 'User/Outlet/LocationOutlet ID',
+      example: 1
+    },
+
     user: {
       model: 'user'
-    },
-
-    outlets: {
-      collection: 'outlet',
-      via: 'address',
-      through: 'outletaddress',
-    },
-
-    users: {
-      collection: 'user',
-      via: 'address',
-      through: 'useraddress',
     },
 
   },
