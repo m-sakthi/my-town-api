@@ -11,7 +11,7 @@ module.exports = {
 
     emailAddress: {
       type: 'string',
-      unique: true,
+      // unique: true,
       isEmail: true,
       maxLength: 200,
       example: 'carol.reyna@microsoft.com'
@@ -43,7 +43,7 @@ module.exports = {
 
     mobileNo: {
       type: 'string',
-      unique: true,
+      // unique: true,
       maxLength: 20,
       regex: /^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$/i,
       description: 'Mobile number for OTP verification and other services.',
