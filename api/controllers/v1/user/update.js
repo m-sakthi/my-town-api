@@ -85,6 +85,9 @@ module.exports = {
     if (inputs.gender)
       payload = { ...payload, gender: inputs.gender.toLowerCase() };
 
+    if (inputs.password)
+      payload = { ...payload, password: await sails.helpers.passwords.hashPassword(inputs.password) }
+
     if (inputs.locationId) {
       if (await Location.findOne(inputs.locationId))
         payload = { ...payload, location: inputs.locationId };
