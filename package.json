@@ -20,7 +20,7 @@
     "sails-hook-grunt": "^4.0.0",
     "sails-hook-organics": "^1.0.0",
     "sails-hook-orm": "^2.1.1",
-    "sails-hook-sockets": "^2.0.0",
+    "sails-hook-sockets": "^2.0.3",
     "sails-postgresql": "^1.0.2",
     "skipper-s3": "^0.6.0",
     "twilio": "^3.39.1",
