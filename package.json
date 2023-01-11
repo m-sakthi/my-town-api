@@ -13,7 +13,7 @@
     "firebase-admin": "^8.9.0",
     "grunt": "1.0.4",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.20.1",
+    "knex": "^2.4.0",
     "sails": "^1.2.3",
     "sails-hook-autoreload": "^1.1.0",
     "sails-hook-email": "^0.12.1",
